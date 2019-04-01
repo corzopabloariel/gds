@@ -1,91 +1,80 @@
-<div class="wrapper">
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
-        </div>
-
-        <ul class="list-unstyled components">
+<div class="sidebar-header">
+    <h3 class="m-0">Menu</h3>
+</div>
+<div class="position-relative" style="height: calc(100% - 81px); overflow-y:auto;">
+    <div class="w-100 position-absolute">
+        <ul class="list-unstyled components m-0 p-0">
             <li class="">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-home mr-2"></i>Home</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="#">Contenido</a>
+                        <a  href="{{ route('contenido.edit', ['seccion' => 'home'])}}">Contenido</a>
                     </li>
                     <li>
-                        <a href="#">Slider</a>
+                        <a href="{{ route('slider.index', ['seccion' => 'home'])}}">Slider</a>
                     </li>
                 </ul>
             </li>
             <li>
-            <a href="#empresaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Empresa</a>
+            <a href="#empresaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-building mr-2"></i>Empresa</a>
                 <ul class="collapse list-unstyled" id="empresaSubmenu">
                     <li>
-                        <a href="#">Contenido</a>
+                        <a href="{{ route('contenido.edit', ['seccion' => 'empresa'])}}">Contenido</a>
                     </li>
                     <li>
-                        <a href="#">Slider</a>
+                        <a href="{{ route('slider.index', ['seccion' => 'empresa'])}}">Slider</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#productosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Productos</a>
+                <a href="#productosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-project-diagram mr-2"></i>Productos</a>
                 <ul class="collapse list-unstyled" id="productosSubmenu">
                     <li>
-                        <a href="#">Familia</a>
+                        <a href="{{ route('familia.index')}}">Familia</a>
                     </li>
+                    <li>
+                        <a href="{{ route('familia.producto.index')}}">Todos</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#ecoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fab fa-soundcloud mr-2"></i>Ecobruma</a>
+                <ul class="collapse list-unstyled" id="ecoSubmenu">
+                    <li>
+                        <a href="{{ route('contenido.edit', ['seccion' => 'ecobruma'])}}">Contenido</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('slider.index', ['seccion' => 'ecobruma'])}}">Slider</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#videosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fab fa-youtube mr-2"></i>Videos</a>
+                <ul class="collapse list-unstyled" id="videosSubmenu">
+                    <li>
+                        <a href="{{ route('contenido.edit', ['seccion' => 'videos'])}}">Contenido</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#clientesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-tie mr-2"></i>Clientes</a>
+                <ul class="collapse list-unstyled" id="clientesSubmenu">
+                    <li>
+                        <a href="{{ route('contenido.edit', ['seccion' => 'clientes'])}}">Contenido</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#proyectosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-network-wired mr-2"></i>Proyectos</a>
+                <ul class="collapse list-unstyled" id="proyectosSubmenu">
                     <li>
                         <a href="#">Todos</a>
                     </li>
                 </ul>
             </li>
+            <li><hr/></li>
             <li>
-                <a href="#">Ecobruma</a>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Videos</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Clientes</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Proyectos</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Empresa</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Información</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
                         <a href="#">Page 1</a>
@@ -99,6 +88,5 @@
                 </ul>
             </li>
         </ul>
-    </nav>
-
+    </div>
 </div>

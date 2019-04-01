@@ -10,9 +10,4 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    public function index() {
-        $title = "";
-        return view('adm.index.index',compact('title'));
-    }
 }
