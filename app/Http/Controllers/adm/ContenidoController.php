@@ -132,9 +132,9 @@ class ContenidoController extends Controller
                         $files = $request->file('img_opcion');
                         $opcion = null;
         
-                        for($j = 0; $j < count($contenido["data"]["opciones"]); $j++) {
-                            if(strcasecmp($contenido["data"]["opciones"][$j]["titulo"], $datosRequest["nombre"][$i]) == 0) {
-                                $opcion = $contenido["data"]["opciones"][$j];
+                        for($j = 0; $j < count($contenido["data"]["caracteristicas"]); $j++) {
+                            if(strcasecmp($contenido["data"]["caracteristicas"][$j]["titulo"], $datosRequest["nombre"][$i]) == 0) {
+                                $opcion = $contenido["data"]["caracteristicas"][$j];
                                 break;
                             }
                         }
@@ -154,6 +154,13 @@ class ContenidoController extends Controller
                     }
                 } else
                     $data = $contenido["data"];
+                break;
+            case "videos":
+                $data = [];
+                for($i = 0; $i < count($datosRequest["titulo"]); $i++) {
+                    if(empty($datosRequest["video"][$i])) continue;
+                    $data[] = ["titulo" => $datosRequest["titulo"][$i],"video" => $datosRequest["video"][$i]];
+                }
                 break;
         }
         

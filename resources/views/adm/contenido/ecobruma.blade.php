@@ -5,14 +5,38 @@
     </div>
     <div class="col-md-7">    
         <button type="submit" class="btn btn-success btn-block mb-3 text-uppercase">Editar<i class="fas fa-edit ml-2"></i></button>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 position-relative">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">www.youtube.com/watch?v=</span>
+                <span class="input-group-text" id="basic-addon3">http://www.youtube.com/watch?v=</span>
             </div>
-            <input type="text" class="form-control" id="video" name="video" aria-describedby="basic-addon3">
+            <input value="{{ $contenido["data"]["video"] }}" type="text" class="form-control" id="video" name="video" aria-describedby="basic-addon3">
+            <i onclick="link(this);" class="position-absolute link-video fab fa-youtube"></i>
         </div>
+        <hr/>
         <button type="button" onclick="addCaracteristicas(this)" class="btn btn-dark">Características <i class="fas fa-plus"></i></button>
-        <div class="mt-3" id="wrapper-caracteristicas"></div>
+        <div class="mt-3" id="wrapper-caracteristicas">
+            @for($i = 0; $i < count($contenido["data"]["caracteristicas"]); $i++)
+            <div class="row">
+                <script>
+                    if(window.img === undefined) window.img = 0;
+                    window.img ++;
+                </script>
+                <div class="col-md-5">
+                    <div class="custom-file">
+                        <input onchange="readURL(this, '#card-img-{{$i + 1}}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">
+                        <label data-invalid="Archivo - 55x55" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>
+                    </div>
+                </div>
+                <div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">
+                    <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{ asset($contenido["data"]["caracteristicas"][$i]["img"])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                </div>
+                <div class="col-md-6 position-relative">
+                    <i onclick="$(this).closest('.row').remove()" class="fas fa-backspace position-absolute text-danger"></i>
+                    <input value="{{ $contenido["data"]["caracteristicas"][$i]["titulo"] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
+                </div>
+            </div>
+            @endfor
+        </div>
         <p><small class="text-muted">Arrestre los elementos para ordernar</small></p>
     </div>
 </div>
@@ -38,7 +62,12 @@
             CKEDITOR.replace( $(this).attr("name") );
         });
     });
-    
+    link = function(t) {
+        let codigo = $(t).parent().find("input").val();
+        if(codigo != "")
+            window.open(`http://www.youtube.com/watch?v=${codigo}`, '_blank');
+            window.open(`http://www.youtube.com`, '_blank');
+    }
     addCaracteristicas = function(t) {
         let target = $("#wrapper-caracteristicas");
         let html = "";
