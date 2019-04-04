@@ -162,6 +162,39 @@ class ContenidoController extends Controller
                     $data[] = ["titulo" => $datosRequest["titulo"][$i],"video" => $datosRequest["video"][$i]];
                 }
                 break;
+            case "clientes":
+                $data = [
+                    "texto" => $datosRequest["texto"],
+                    "listado" => []
+                ];
+                if(isset($datosRequest["nombre"])) {
+                    for($i = 0; $i < count($datosRequest["nombre"]); $i++) {
+                        $files = $request->file('img_opcion');
+                        $opcion = null;
+        
+                        for($j = 0; $j < count($contenido["data"]["listado"]); $j++) {
+                            if(strcasecmp($contenido["data"]["listado"][$j]["nombre"], $datosRequest["nombre"][$i]) == 0) {
+                                $opcion = $contenido["data"]["listado"][$j];
+                                break;
+                            }
+                        }
+                        $img = null;
+                        if(!is_null($opcion))
+                            $img = $opcion["img"];
+                        if(!is_null($files[$i])) {
+                            $path = public_path('images/general/')."{$seccion}";
+                            if (!file_exists($path))
+                                mkdir($path, 0777, true);
+                            
+                            $imageName = time().'_clientes_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
+                            $files[$i]->move($path, $imageName);
+                            $img = "images/general/{$seccion}/{$imageName}";
+                        }
+                        $data["listado"][] = ["img" => $img,"nombre" => $datosRequest["nombre"][$i]];
+                    }
+                } else
+                    $data = $contenido["data"];
+                break;
         }
         
         $contenido->fill(["data" => json_encode($data)]);

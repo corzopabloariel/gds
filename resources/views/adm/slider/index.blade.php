@@ -8,7 +8,6 @@
 
 <section class="mt-3">
     <div class="container-fluid">
-        
         <div>
             <button id="btnADD" onclick="addSlider(this)" class="btn btn-primary text-uppercase" type="button">Agregar<i class="fas fa-plus ml-2"></i></button>
         </div>
@@ -94,7 +93,6 @@
                 </table>
             </div>
         </div>
-        
     </div>
 </section>
 

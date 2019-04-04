@@ -4,7 +4,7 @@ namespace App\Http\Controllers\adm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Familia;
 class FamiliaController extends Controller
 {
     /**
@@ -14,7 +14,9 @@ class FamiliaController extends Controller
      */
     public function index()
     {
-        //
+        $title = "Familias";
+        $familias = Familia::orderBy('orden')->get();
+        return view('adm.familia.index',compact('title','familias'));
     }
 
     /**
