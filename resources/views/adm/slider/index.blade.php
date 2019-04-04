@@ -30,17 +30,23 @@
                             <div class="col-6 col-md-5">
                                 <div class="custom-file">
                                     <input onchange="readURL(this);" required type="file" name="img" accept="image/*" class="custom-file-input" lang="es">
-                                    <label data-invalid="Seleccione archivo - 1350x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                    @if($seccion == "ecobruma")
+                                        <label data-invalid="Seleccione archivo - 561x534" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                    @else
+                                        <label data-invalid="Seleccione archivo - 1350x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-3 col-md-1">
                                 <button type="submit" class="btn btn-block btn-success mr-1"><i class="fas fa-check"></i></button>
                             </div>
                         </div>
+                        @if($seccion != "ecobruma")
                         <fieldset>
                             <legend>Texto</legend>
                             <textarea placeholder="Texto" id="texto" name="texto" class="validate ckeditor w-100"></textarea>
                         </fieldset>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -51,7 +57,9 @@
                     <thead class="thead-dark">
                         <th class="text-uppercase">Orden</th>
                         <th class="text-uppercase">Imagen</th>
+                        @if($seccion != "ecobruma")
                         <th class="text-uppercase">Texto</th>
+                        @endif
                         <th class="text-uppercase">acción</th>
                     </thead>
                     <tbody>
@@ -60,7 +68,9 @@
                                 <tr data-id="{{ $slider['id'] }}">
                                     <td class="text-uppercase">{!! $slider["orden"] !!}</td>
                                     <td><img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ asset($slider['img']) }}?t=<?php echo time(); ?>" /></td>
-                                    <td>{!! $slider["texto"] !!}</td>
+                                    @if($seccion != "ecobruma")
+                                        <td>{!! $slider["texto"] !!}</td>
+                                    @endif
                                     <td>
                                         <button type="button" onclick="editSlider({{ $slider['id'] }}, this)" class="btn btn-warning mr-1"><i class="fas fa-pencil-alt"></i></button>
                                         <button type="button" onclick="deleteSlider({{ $slider['id'] }}, this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
@@ -69,9 +79,15 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="4" class="text-uppercase text-center">
-                                    sin datos
-                                </td>
+                                @if($seccion != "ecobruma")
+                                    <td colspan="4" class="text-uppercase text-center">
+                                        sin datos
+                                    </td>
+                                @else
+                                    <td colspan="3" class="text-uppercase text-center">
+                                        sin datos
+                                    </td>
+                                @endif
                             </tr>
                         @endif
                     </tbody>
