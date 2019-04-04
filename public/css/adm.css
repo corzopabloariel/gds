@@ -135,15 +135,66 @@ a.article:hover {
 ----------------------------------------------------- */
 
 #content {
-    width: 100%;
-    min-height: 100vh;
+    width: calc(100% - 300px);
     transition: all 0.3s;
+    margin-left: 300px;
 }
 #content > .title {
     padding: 20px;
     background-color: #fafafa;
 }
 
+/* ---------------------------------------------------
+    IMAGES / FILE
+----------------------------------------------------- */
+input.custom-file-input,
+input.custom-file-input + label {
+    cursor: pointer;
+}
+input.custom-file-input:invalid + label:before {
+    content: attr(data-invalid);
+}
+input.custom-file-input:valid + label:before {
+    content: attr(data-valid);
+}
+input.custom-file-input:valid + label {
+    border-color: #1e7e34;
+    background-color: #218838;
+    color: #ffffff;
+}
+/* ---------------------------------------------------
+    FIELDSET
+----------------------------------------------------- */
+fieldset {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+fieldset legend {
+    width: auto;
+    padding: 10px 15px;
+    margin-top: 0;
+}
+/* ---------------------------------------------------
+    TABLE
+----------------------------------------------------- */
+.table td, .table th {
+    vertical-align: middle;
+}
+.table-img-4 thead th:first-child,
+.table-img-4 tbody td:first-child {
+    width: 50px;
+    text-align: center;
+}
+.table-img-4 thead th:nth-child(2),
+.table-img-4 thead th:last-child,
+.table-img-4 tbody td:last-child {
+    width: 180px;
+    text-align: center;
+}
+.table-img-4 tbody tr td:nth-child(2) img {
+    width: 100%;
+    display: block;
+}
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

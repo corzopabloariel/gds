@@ -5,7 +5,8 @@ body {
     font-style: normal;
     font-size: 15px;
 }
-.form-control:focus {
+.form-control:focus,
+.custom-file-input:focus~.custom-file-label {
     color: #495057;
     background-color: #fff;
     border-color: #0F845E;

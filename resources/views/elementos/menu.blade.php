@@ -1,7 +1,7 @@
 <div class="sidebar-header">
     <h3 class="m-0">Menu</h3>
 </div>
-<div class="position-relative" style="height: calc(100% - 81px); overflow-y:auto;">
+<div class="position-relative" style="height: calc(100% - 73px); overflow-y:auto;">
     <div class="w-100 position-absolute">
         <ul class="list-unstyled components m-0 p-0">
             <li class="">

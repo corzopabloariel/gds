@@ -4,7 +4,7 @@ namespace App\Http\Controllers\adm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Slider;
 class SliderController extends Controller
 {
     /**
@@ -13,8 +13,10 @@ class SliderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($seccion)
-    {
-        //
+    {  
+        $title = "Slider: " . strtoupper($seccion);
+        $sliders = Slider::where('seccion',$seccion)->orderBy('orden')->get();
+        return view('adm.slider.index',compact('title','seccion','sliders'));
     }
 
     /**
@@ -33,9 +35,41 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $seccion)
+    public function store(Request $request, $seccion, $data = null)
     {
-        //
+        $datosRequest = $request->all();
+        $model = new Slider();
+        $ARR_data = [];
+
+        foreach($model->getFillable() AS $f) {
+            if($f == "img") {
+                $file = $request->file($f);
+                if(is_null($file))
+                    continue;
+                $path = public_path('images/sliders/')."{$seccion}";
+                if (!file_exists($path))
+                    mkdir($path, 0777, true);
+                
+                $imageName = time().'.'.$file->getClientOriginalExtension();
+                $file->move($path, $imageName);
+                $ARR_data[$f] = "images/sliders/{$seccion}/{$imageName}";
+                continue;
+            }
+            if(isset($datosRequest[$f]))
+                $ARR_data[$f] = $datosRequest[$f];
+        }
+        if(is_null($data))
+            Slider::create($ARR_data);
+        else {
+            if(isset($ARR_data["img"])) {
+                $filename = public_path() . "/" . $data["img"];
+                if (file_exists($filename))
+                    unlink($filename);
+                $data->fill($ARR_data);
+                $data->save();
+            }
+        }
+        return back();
     }
 
     /**
@@ -46,7 +80,6 @@ class SliderController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -57,7 +90,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Slider::find($id);
     }
 
     /**
@@ -69,7 +102,9 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = self::edit($id);
+        self::store($request,$data["seccion"],$data);
+        return back();
     }
 
     /**
@@ -80,6 +115,12 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = self::edit($id);
+        $filename = public_path() . "/" . $data["img"];
+        if (file_exists($filename))
+            unlink($filename);
+
+        Slider::destroy($id);
+        return 1;
     }
 }
