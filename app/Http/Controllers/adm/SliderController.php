@@ -65,9 +65,9 @@ class SliderController extends Controller
                 $filename = public_path() . "/" . $data["img"];
                 if (file_exists($filename))
                     unlink($filename);
-                $data->fill($ARR_data);
-                $data->save();
             }
+            $data->fill($ARR_data);
+            $data->save();
         }
         return back();
     }

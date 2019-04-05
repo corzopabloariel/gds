@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Familia extends Model
+class Producto extends Model
 {
     protected $fillable = [
         'titulo',
-        'img',
+        'data',
+        'destacado',
+        'familia_id',
         'orden'
     ];
 }

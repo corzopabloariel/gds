@@ -4,7 +4,7 @@ namespace App\Http\Controllers\adm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Producto;
 class ProductoController extends Controller
 {
     /**
@@ -14,7 +14,9 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        $title = "Productos";
+        $productos = Producto::orderBy('orden')->get();
+        return view('adm.familia.producto',compact('title','productos'));
     }
 
     /**

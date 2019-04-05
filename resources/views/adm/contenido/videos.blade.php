@@ -14,10 +14,10 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">youtube.com/watch?v=</span>
                 </div>
-                <input value="{{$contenido["data"][$i]["video"]}}" type="text" class="form-control" name="video[]" aria-describedby="basic-addon3">
+                <input value="{{$contenido['data'][$i]['video']}}" type="text" class="form-control" name="video[]" aria-describedby="basic-addon3">
                 <i onclick="link(this);" class="position-absolute link-video fab fa-youtube"></i>
             </div>
-            <input value="{{$contenido["data"][$i]["titulo"]}}" placeholder="Título" name="titulo[]" type="text" class="form-control"/>
+            <input value="{{$contenido['data'][$i]['titulo']}}" placeholder="Título" name="titulo[]" type="text" class="form-control"/>
         </fieldset>
     </div>
     @endfor

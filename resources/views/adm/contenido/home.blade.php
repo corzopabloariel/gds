@@ -7,10 +7,10 @@
             <label data-invalid="Seleccione archivo - 450x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
         </div>
 
-        <img id="card-img" class="w-100 d-block mt-2" src="{{ asset($contenido["data"]["img"]) }}?t=<?php echo time(); ?>" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+        <img id="card-img" class="w-100 d-block mt-2" src="{{ asset($contenido['data']['img']) }}?t=<?php echo time(); ?>" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
     </div>
     <div class="col-12 col-md-7">
-        <input placeholder="Título" name="titulo" type="text" class="form-control" value="{!! $contenido["data"]["titulo"] !!}"/>
+        <input placeholder="Título" name="titulo" type="text" class="form-control" value="{!! $contenido['data']['titulo'] !!}"/>
         <fieldset>
             <legend>Texto</legend>
             <textarea placeholder="Texto" id="texto" name="texto" class="validate ckeditor w-100">{!! $contenido["data"]["texto"] !!}</textarea>
@@ -32,11 +32,11 @@
                             </div>
                         </div>
                         <div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">
-                            <img id="card-img-{{ $i + 1 }}" class="w-100 d-block" src="{{ asset($contenido["data"]["opciones"][$i]["img"]) }}?t=<?php echo time(); ?>" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                            <img id="card-img-{{ $i + 1 }}" class="w-100 d-block" src="{{ asset($contenido['data']['opciones'][$i]['img']) }}?t=<?php echo time(); ?>" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
                         </div>
                         <div class="col-md-6 position-relative">
                             <i onclick="$(this).closest('.row').remove()" class="fas fa-backspace position-absolute text-danger"></i>
-                            <input value="{{ $contenido["data"]["opciones"][$i]["titulo"] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
+                            <input value="{{ $contenido['data']['opciones'][$i]['titulo'] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
                         </div>
                     </div>
                 @endfor
