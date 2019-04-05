@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-04-2019 a las 22:04:46
+-- Tiempo de generación: 05-04-2019 a las 22:12:17
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -79,6 +79,13 @@ CREATE TABLE `familias` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `familias`
+--
+
+INSERT INTO `familias` (`id`, `titulo`, `img`, `orden`, `created_at`, `updated_at`) VALUES
+(1, 'Acceso Persona', 'images/familias/1554459652.jpg', 'aa', '2019-04-05 13:20:52', '2019-04-05 13:20:52');
+
 -- --------------------------------------------------------
 
 --
@@ -152,6 +159,13 @@ CREATE TABLE `productos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id`, `titulo`, `data`, `destacado`, `familia_id`, `orden`, `created_at`, `updated_at`) VALUES
+(4, 'Molinetes', '{\"descripcion\":\"<p>Permitir el acceso de personas o denegarlo en forma autom&aacute;tica de acuerdo al sector, horario o jerarqu&iacute;a y adem&aacute;s conocer el desplazamiento de personal de planta estable, eventuales o contratistas es una tarea sencilla incorporando nuestros productos de control.<\\/p>\\r\\n\\r\\n<p>Nuestra permanente vocaci&oacute;n por proveer tecnolog&iacute;a de seguridad y control nos ha permitido dise&ntilde;ar mecanismos de larga vida &uacute;til y bajo mantenimiento produciendo equipamiento con la garant&iacute;a de funcionamiento por largos per&iacute;odos sin desperfectos.<\\/p>\",\"detalle\":\"<p><span style=\\\"color:#fe7121\\\">Monovolumen<\\/span><\\/p>\\r\\n\\r\\n<p>Mecanismo sencillo de bajo costo y eficiente performance alojado en gabinete de acero inoxidable apto para espacios reducidos o de poco flujo de personas.<\\/p>\\r\\n\\r\\n<p>&nbsp;<\\/p>\\r\\n\\r\\n<p><span style=\\\"color:#fe7121\\\">Doble Pie<\\/span><\\/p>\\r\\n\\r\\n<p>Mecanismo de alta seguridad y robustez dise&ntilde;ando para uso intenso, con gran tolerancia al trato riguroso alojado en gabinete de doble pie construido en acero inoxidable con refuerzos internos de terminaci&oacute;n anticorrosiva.<\\/p>\",\"video\":null,\"caracteristicas\":[{\"img\":\"images\\/familias\\/productos\\/1554485070_caracteristicas_1.png\",\"nombre\":\"Materiales resistentes y de larga vida \\u00fatil\"},{\"img\":\"images\\/familias\\/productos\\/1554485071_caracteristicas_2.png\",\"nombre\":\"La mejor tecnolog\\u00eda para su seguridad\"},{\"img\":\"images\\/familias\\/productos\\/1554485071_caracteristicas_3.png\",\"nombre\":\"Confecci\\u00f3n  de alta calidad\"}]}', 0, 1, 'aa', '2019-04-05 20:24:31', '2019-04-05 20:24:31');
+
 -- --------------------------------------------------------
 
 --
@@ -160,12 +174,19 @@ CREATE TABLE `productos` (
 
 CREATE TABLE `productosimg` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `img` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `producto_id` bigint(20) UNSIGNED NOT NULL,
   `orden` varchar(3) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `productosimg`
+--
+
+INSERT INTO `productosimg` (`id`, `img`, `producto_id`, `orden`, `created_at`, `updated_at`) VALUES
+(2, 'images/familias/productos/1554485071_producto_1.png', 4, '1', '2019-04-05 20:24:31', '2019-04-05 20:24:31');
 
 -- --------------------------------------------------------
 
@@ -349,7 +370,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `familias`
 --
 ALTER TABLE `familias`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `metadatos`
@@ -367,13 +388,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `productosimg`
 --
 ALTER TABLE `productosimg`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `productosrelacion`

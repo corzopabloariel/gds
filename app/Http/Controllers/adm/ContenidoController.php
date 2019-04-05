@@ -47,13 +47,13 @@ class ContenidoController extends Controller
             case "home":
                 $file = $request->file("img");
                 if(!is_null($file)) {
-                    $path = public_path('images/general/')."{$seccion}";
+                    $path = public_path('images/producto/')."{$seccion}";
                     if (!file_exists($path))
                         mkdir($path, 0777, true);
                     
                     $imageName = time().'.'.$file->getClientOriginalExtension();
                     $file->move($path, $imageName);
-                    $img = "images/general/{$seccion}/{$imageName}";
+                    $img = "images/producto/{$seccion}/{$imageName}";
                 } else
                     $img = $contenido["data"]["img"];
                 // 

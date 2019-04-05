@@ -13,4 +13,8 @@ class Producto extends Model
         'familia_id',
         'orden'
     ];
+    public function imagenes()
+    {
+        return $this->hasMany('App\Productosimg')->orderBy('orden');
+    }
 }

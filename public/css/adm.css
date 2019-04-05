@@ -147,12 +147,16 @@ a.article:hover {
     OPCIONES
 ----------------------------------------------------- */
 #wrapper-opciones .row,
+#wrapper-opciones > fieldset,
+#wrapper-imagenes > fieldset,
 #wrapper-numeros .row,
 #wrapper-caracteristicas .row,
 #wrapper-clientes .cli {
     cursor: move;
 }
 #wrapper-opciones .row + .row,
+#wrapper-opciones > fieldset + fieldset,
+#wrapper-imagenes > fieldset + fieldset,
 #wrapper-numeros .row + .row,
 #wrapper-caracteristicas .row + .row,
 #wrapper-clientes .row + .row {
@@ -161,8 +165,9 @@ a.article:hover {
 #wrapper-opciones .row i,
 #wrapper-numeros .row i,
 #wrapper-caracteristicas .row i,
-#wrapper-clientes .row i {
-    right: -10px;
+#wrapper-clientes .row i,
+#wrapper-imagenes .row i {
+    right: 0;
     cursor: pointer;
     top: calc(50% - 15px);
     font-size: 30px;

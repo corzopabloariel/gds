@@ -9,9 +9,9 @@
 <section class="mt-3">
     <div class="container-fluid">
         <div>
-            <button id="btnADD" onclick="addFamilia(this)" class="btn btn-primary text-uppercase" type="button">Agregar<i class="fas fa-plus ml-2"></i></button>
+            <button id="btnADD" onclick="addProducto(this)" class="btn btn-primary text-uppercase" type="button">Agregar<i class="fas fa-plus ml-2"></i></button>
         </div>
-        <div style="" id="wrapper-form" class="mt-2">
+        <div style="display: none;" id="wrapper-form" class="mt-2">
             <div class="card">
                 <div class="card-body">
                     <button onclick="addDelete(this)" type="button" class="close" aria-label="Close">
@@ -24,7 +24,7 @@
                                 <input placeholder="Título" name="titulo" type="text" class="form-control" value=""/>
                                 <fieldset class="bg-light">
                                     <legend>Descripción</legend>
-                                    <textarea placeholder="Texto" id="texto" name="texto" class="validate ckeditor w-100"></textarea>
+                                    <textarea placeholder="Texto" id="descripcion" name="descripcion" class="validate ckeditor w-100"></textarea>
                                 </fieldset>
                                 <fieldset class="bg-light">
                                     <legend>Detalle</legend>
@@ -42,9 +42,23 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="familia">Familia de productos</label>
+                                            </div>
+                                            <select class="custom-select" name="familia_id" id="familia_id">
+                                                @foreach ($familias as $id => $v)
+                                                    <option value="{{$id}}">{{$v}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
                                         <div class="custom-file">
-                                            <input onchange="readURL(this);" required type="file" name="img" accept="application/pdf,image/jpeg" class="custom-file-input" lang="es">
-                                            <label data-invalid="Seleccione archivo" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                            <input onchange="readURL(this);" required type="file" name="especificaciones" accept="application/pdf,image/jpeg" class="custom-file-input" lang="es">
+                                            <label data-invalid="Seleccione especificaciones" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                                         </div>
                                         <small class="form-text text-muted">
                                         Acepta archivos con extensión PDF y JPG
@@ -67,7 +81,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                            <input class="form-check-input" type="checkbox" value="" name="destacado" id="defaultCheck1">
                                             <label class="form-check-label" for="defaultCheck1">
                                                 Producto destacado?
                                             </label>
@@ -77,13 +91,24 @@
                                         </small>
                                     </div>
                                 </div>
+                                <hr/>
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <fieldset>
-                                            <legend><button type="button" onclick="addOpciones(this)" class="btn btn-dark">Opciones <i class="fas fa-plus"></i></button></legend>
+                                            <legend><button id="btnCaracteristicas" type="button" onclick="addOpciones(this)" class="btn btn-dark">Características <i class="fas fa-plus"></i></button></legend>
                                             <div id="wrapper-opciones">
                                             </div>
                                             <small class="text-muted">Arrestre los elementos para ordernar</small>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <fieldset>
+                                            <legend><button id="btnImagenes" type="button" onclick="addImagenes(this)" class="btn btn-dark">Imágenes <i class="fas fa-plus"></i></button></legend>
+                                            <div id="wrapper-imagenes">
+                                            </div>
+                                            <small class="text-muted">Arrestre los elementos para ordernar. La primera imagen será la portada</small>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -105,14 +130,27 @@
                     </thead>
                     <tbody>
                         @if(count($productos) != 0)
-                            @foreach($productos AS $familia)
-                                <tr data-id="{{ $familia['id'] }}">
-                                    <td class="text-uppercase">{!! $familia["orden"] !!}</td>
-                                    <td><img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ asset($familia['img']) }}?t=<?php echo time(); ?>" /></td>
-                                    <td>{!! $familia["titulo"] !!}</td>
+                            @foreach($productos AS $producto)
+                                @php
+                                $producto["imagenes"] = $producto->imagenes;
+                                $img = null;
+                                $familia = App\Familia::find($producto["familia_id"]);
+                                if(isset($producto["imagenes"][0])) 
+                                    $img = asset($producto["imagenes"][0]["img"]) . "?t=" . time();
+                                @endphp
+                                <tr data-id="{{ $producto['id'] }}">
+                                    <td class="text-uppercase">{!! $producto["orden"] !!}</td>
+                                    <td><img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ $img }}" /></td>
                                     <td>
-                                        <button type="button" onclick="editFamilia({{ $familia['id'] }}, this)" class="btn btn-warning mr-1"><i class="fas fa-pencil-alt"></i></button>
-                                        <button type="button" onclick="deleteFamilia({{ $familia['id'] }}, this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        @if($producto["destacado"])
+                                            <i class="fas fa-star text-warning mr-2" title="Destacado"></i>
+                                        @endif
+                                        {!! $producto["titulo"] !!}
+                                        <small class="ml-2">{{$familia["titulo"]}}</small>
+                                    </td>
+                                    <td>
+                                        <button type="button" onclick="editProducto({{ $producto['id'] }}, this)" class="btn btn-warning mr-1"><i class="fas fa-pencil-alt"></i></button>
+                                        <button type="button" onclick="deleteProducto({{ $producto['id'] }}, this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -131,3 +169,158 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//cdn.ckeditor.com/4.7.3/full/ckeditor.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).on("ready",function() {
+        $(".ckeditor").each(function () {
+            CKEDITOR.replace( $(this).attr("name") );
+        });
+    });
+    addProducto = function(t, id = 0, data = null) {
+        let btn = $(t);
+        if(btn.is(":disabled"))
+            btn.removeAttr("disabled");
+        else
+            btn.attr("disabled",true);
+        $("#wrapper-form").toggle(800,"swing");
+
+        $("#wrapper-tabla").toggle("fast");
+
+        if(id != 0)
+            action = `{{ url('/adm/familia/producto/update/') }}/${id}`;
+        else
+            action = "{{ url('/adm/familia/producto/store') }}";
+        if(data !== null) {
+            console.log(data)
+            data.data = JSON.parse(data.data);
+            $(`[name="titulo"]`).val(data.titulo);
+            $('[name="orden"]').val(data.orden);
+            if(data.data.video !== null)
+                $('[name="video"]').val(data.data.video)
+            if(parseInt(data.destacado))
+                $("[name='destacado']").attr("checked",true)
+            // $("#wrapper-opciones,#wrapper-imagenes").html("");
+            CKEDITOR.instances['descripcion'].setData(data.data.descripcion);
+            CKEDITOR.instances['detalle'].setData(data.data.detalle);
+            $("#familia_id").val(data.familia_id).trigger("change");
+            data.data.caracteristicas.forEach(element => {
+                addOpciones($("#btnCaracteristicas"),element);
+            });
+            data.imagenes.forEach(element => {
+                addImagenes($("#btnImagenes"), element);
+            });
+        }
+        elmnt = document.getElementById("form");
+        elmnt.scrollIntoView();
+        $("#form").attr("action",action);
+    };
+    editProducto = function(id, t) {
+        $(t).attr("disabled",true);
+        let promise = new Promise(function (resolve, reject) {
+            let url = `{{ url('/adm/familia/producto/edit') }}/${id}`;
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.responseType = 'json';
+            xmlHttp.open( "GET", url, true );
+            xmlHttp.onload = function() {
+                resolve(xmlHttp.response);
+            }
+            xmlHttp.send( null );
+        });
+
+        promiseFunction = () => {
+            promise
+                .then(function(data) {
+                    $(t).removeAttr("disabled");
+                    addProducto($("#btnADD"),parseInt(id),data);
+                })
+        };
+        promiseFunction();
+    };
+    addOpciones = function(t, data = null) {
+        let target = $("#wrapper-opciones");
+        let html = "";
+        if(window.imgOpciones === undefined) window.imgOpciones = 0;
+        window.imgOpciones ++;
+        html += '<fieldset class="bg-dark border-dark">';
+            html += '<div class="row">';
+                html += '<div class="col-md-8 d-flex flex align-items-center">';
+                    html += '<div>';
+                        html += '<div class="custom-file">';
+                            html += `<input onchange="readURL(this, '#card-car-${window.imgOpciones}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">`;
+                            html += '<label data-invalid="Archivo - 83x83" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                        html += '</div>';
+                        html += '<input placeholder="Nombre" name="nombre[]" type="text" class="form-control mt-2"/>';
+                    html += '</div>';
+                html += '</div>';
+                html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
+                    html += `<img id="card-car-${window.imgOpciones}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                    html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
+                html += '</div>';
+            html += '</div>';
+        html += '</fieldset>';
+        target.append(html);
+
+        if(data !== null) {
+            target.find("> fieldset.bg-dark:last-child()").find(".row input[type='text']").val(data.nombre);
+            img = '{{ asset("/") }}' + data.img;
+            target.find("> fieldset.bg-dark:last-child()").find(".row img").attr("src",img);
+        }
+    }
+    addImagenes = function(t, data = null) {
+        let target = $("#wrapper-imagenes");
+        let html = "";
+        if(window.img === undefined) window.img = 0;
+        window.img ++;
+        html += '<fieldset class="bg-dark border-dark">';
+            html += '<div class="row">';
+                html += '<div class="col-md-8 d-flex flex align-items-center">';
+                    html += '<div class="custom-file">';
+                        html += `<input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img[]" accept="image/*" class="custom-file-input" lang="es">`;
+                        html += '<label data-invalid="Archivo - 340x340" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                    html += '</div>';
+                html += '</div>';
+                html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
+                    html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                    html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
+                html += '</div>';
+            html += '</div>';
+        html += '</fieldset>';
+    
+        target.append(html);
+        if(data !== null) {
+            img = '{{ asset("/") }}' + data.img;
+            target.find("> fieldset.bg-dark:last-child()").find(".row img").attr("src",img);
+        }
+    }
+    readURL = function(input, target) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(target).attr(`src`,`${e.target.result}`);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+    addDelete = function(t) {
+        addProducto($("#btnADD"));
+        $(`[name="orden"],[name="video"],[name="especificaciones"],[name="titulo"]`).val("");
+        $("[name='destacado']").attr("checked",false);
+        $("#wrapper-opciones,#wrapper-imagenes").html("");
+        CKEDITOR.instances['descripcion'].setData('');
+        CKEDITOR.instances['detalle'].setData('');
+        $("#familia_id").val($("#familia_id option:first-child()").val()).trigger("change");
+    };
+    $("#wrapper-opciones,#wrapper-imagenes").sortable({
+        axis: "y",
+        revert: true,
+        scroll: false,
+        placeholder: "sortable-placeholder",
+        cursor: "move"
+    }).disableSelection();
+</script>
+@endpush
