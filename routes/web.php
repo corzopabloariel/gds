@@ -18,6 +18,7 @@ Route::get('ecobruma', ['uses' => 'page\GdsController@ecobruma', 'as' => 'ecobru
 Route::get('videos', ['uses' => 'page\GdsController@videos', 'as' => 'videos']);
 Route::get('clientes', ['uses' => 'page\GdsController@clientes', 'as' => 'clientes']);
 Route::get('proyectos', ['uses' => 'page\GdsController@proyectos', 'as' => 'proyectos']);
+Route::get('proyectos/{id}', ['uses' => 'page\GdsController@proyecto', 'as' => 'proyecto']);
 Route::get('contacto', ['uses' => 'page\GdsController@contacto', 'as' => 'contacto']);
 Route::get('presupuesto', ['uses' => 'page\GdsController@presupuesto', 'as' => 'presupuesto']);
 

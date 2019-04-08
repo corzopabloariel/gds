@@ -1,5 +1,6 @@
 body {
     background-color: #fff;
+    font-size: 18px;
 }
 a,
 a:hover {
@@ -63,6 +64,66 @@ nav {
 .wrapper-destacados .title {
     color: #B0B0B0;
     font-size: 15px;
+}
+.wrapper-videos p,
+.wrapper-clientes .listado p {
+    color:#515151;
+    font-size: 16px;
+}
+.wrapper-proyectos a {
+    color: #0D7855 !important;
+    font-size: 20px;
+    font-weight: 500;
+}
+.wrapper-ecobruma {
+    padding-top: 2em;
+}
+.wrapper-ecobruma h3.title,
+.wrapper-videos h3.title,
+.wrapper-clientes h3.title,
+.wrapper-proyectos h3.title {
+    color: #0E7856;
+    font-size: 30px;
+}
+.wrapper-ecobruma h4.title {
+    color: #007954;
+    font-size: 32px;
+}
+.wrapper-ecobruma h5.title {
+    color: #FE7123;
+    font-size: 26px;
+}
+.wrapper-ecobruma h5 + p {
+    color: #595959;
+    font-size: 16px;
+}
+.wrapper-ecobruma .formulario .form-control {
+    border-radius: 0;
+    background-color: transparent;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+.wrapper-ecobruma .formulario .form-control:focus {
+    box-shadow: none;
+    border-color: initial;
+}
+.wrapper-ecobruma .formulario .btn-gds {
+    padding: 10px 50px;
+    border-radius: 30px;
+}
+.wrapper-ecobruma .caracteristicas img {
+    width: 83px;
+    height: 83px;
+    margin: auto;
+}
+.wrapper-ecobruma .video p {
+    color: #FE7122;
+    font-size: 20px;
+}
+.wrapper-ecobruma .caracteristicas p {
+    font-size: 17px;
+    text-align: center;
 }
 .wrapper-destacados a,
 .wrapper-destacados a:hover {

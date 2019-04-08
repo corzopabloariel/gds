@@ -40,7 +40,7 @@
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-md-3 col-6">
-                    <a href="">
+                    <a href="{{ route('ecobruma') }}">
                         <img src="{{$ecobruma}}" alt="" class="w-100" srcset="">
                         <p class="m-0 p-2">Ecobruma</p>
                     </a>
