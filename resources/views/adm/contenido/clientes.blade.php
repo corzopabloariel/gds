@@ -13,23 +13,26 @@
 </div>
 <div class="row" id="wrapper-clientes">
     @for($i = 0; $i < count($contenido["data"]["listado"]); $i++)
-        <div class="mt-3 col-md-6 cli">
+        <div class="col-md-6 cli">
             <script>
                 if(window.img === undefined) window.img = 0;
                 window.img ++;
             </script>
             <fieldset class="bg-light">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="custom-file">
-                            <input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">
-                            <label data-invalid="Archivo - 290x192" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>
+                    <div class="col-md-8 d-flex align-items-center">
+                        <div class="w-100">
+                            <div class="custom-file">
+                                <input onchange="readURL(this, '#card-img-{{$i + 1}}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">
+                                <label data-invalid="Archivo - 290x192" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
+                            </div>
+                            <input value="{{$contenido['data']['listado'][$i]['nombre']}}" placeholder="Nombre" name="nombre[]" type="text" class="form-control mt-2"/>
                         </div>
-                        <input value="{{$contenido["data"]["listado"][$i]["nombre"]}}" placeholder="Nombre" name="nombre[]" type="text" class="form-control mt-2"/>
                     </div>
                     <div class="col-md-4 position-relative d-flex align-items-center">
                         <i onclick="$(this).closest('.cli').remove()" class="fas fa-backspace position-absolute text-danger"></i>
-                        <img id="card-img-${window.img}" class="w-100 d-block" src="{{asset($contenido["data"]["listado"][$i]["img"])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                        <input name="nombreCar[]" type="hidden" value="{{$contenido['data']['listado'][$i]['img']}}"/>
+                        <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{asset($contenido['data']['listado'][$i]['img'])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
                     </div>
                 </div>
             </fieldset>
@@ -63,6 +66,7 @@
                 $(target).attr(`src`,`${e.target.result}`);
             };
             reader.readAsDataURL(input.files[0]);
+            $(target).parent().find("input[type='hidden']").val(0);
         }
     };
     addClientes = function(t) {
@@ -70,18 +74,21 @@
         let html = "";
         if(window.img === undefined) window.img = 0;
         window.img ++;
-        html += '<div class="mt-3 col-md-6 cli">';
+        html += '<div class="col-md-6 cli">';
             html += '<fieldset class="bg-light">';
                 html += '<div class="row">';
-                    html += '<div class="col-md-8">';
-                        html += '<div class="custom-file">';
-                            html += `<input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">`;
-                            html += '<label data-invalid="Archivo - 290x192" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                    html += '<div class="col-md-8 d-flex align-items-center">';
+                        html += '<div class="w-100">';
+                            html += '<div class="custom-file">';
+                                html += `<input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">`;
+                                html += '<label data-invalid="Archivo - 290x192" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" data-browse="Buscar" for="customFileLang"></label>';
+                            html += '</div>';
+                            html += '<input placeholder="Nombre" name="nombre[]" type="text" class="form-control mt-2"/>';
                         html += '</div>';
-                        html += '<input placeholder="Nombre" name="nombre[]" type="text" class="form-control mt-2"/>';
                     html += '</div>';
                     html += '<div class="col-md-4 position-relative d-flex align-items-center">';
                         html += `<i onclick="$(this).closest('.cli').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
+                        html += `<input name="nombreCar[]" type="hidden" value="${window.img}"/>`;
                         html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
                     html += '</div>';
                 html += '</div>';

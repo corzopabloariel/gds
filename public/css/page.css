@@ -1,0 +1,177 @@
+body {
+    background-color: #fff;
+}
+a,
+a:hover {
+    text-decoration: none;
+}
+/* ---------------------------------------
+    NAV
+----------------------------------------- */
+nav {
+    font-size: 16px;
+    color: #676767;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: inherit;
+    padding: 0;
+}
+.navbar-light .navbar-nav .nav-item + .nav-item {
+    margin-left: 2.2em;
+}
+
+.submenu ul {
+    list-style: none;
+}
+.submenu ul li {
+    display: inline-block;
+}
+.submenu ul li a {
+    color: inherit;
+}
+.submenu ul li + li {
+    padding-left: 2em;
+    margin-left: 2em;
+    border-left: 1px solid
+}
+/* ---------------------------------------------------
+    CAROUSEL
+----------------------------------------------------- */
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.carousel-inner img + div {
+    top: 35%;
+    color: #fff;
+    text-shadow: 0 0 1px #000000;
+}
+.carousel-inner img + div .container * {
+    margin: 0;
+}
+.carousel-inner img + div .container *:last-child {
+    width: 45%;
+    line-height: initial;
+}
+/* ---------------------------------------------------
+    HOME
+----------------------------------------------------- */
+.wrapper-destacados {
+    background-color: #fff;
+}
+.wrapper-destacados .title {
+    color: #B0B0B0;
+    font-size: 15px;
+}
+.wrapper-destacados a,
+.wrapper-destacados a:hover {
+    color: #0D7855;
+    font-size: 22px;
+}
+.wrapper-destacados a img {
+    height: 268px;
+    width: 268px;
+}
+
+.wrapper-home {
+    background-color: #F5F5F5;
+}
+.wrapper-home .title {
+    color: #0D7855;
+    font-size: 22px;
+}
+.wrapper-home .caracteristicas {
+    margin-top: 2em;
+}
+.wrapper-home .caracteristicas li + li {
+    margin-top: 1em;
+}
+.wrapper-empresa h3.title {
+    color: #FE7122;
+    font-size: 30px;
+}
+.wrapper-empresa h4.title {
+    color: #007955;
+    font-size: 32px;
+}
+.wrapper-empresa .numeros {
+    font-size: 26px;
+    color: #666666;
+}
+.wrapper-empresa .numeros span {
+    font-weight: bold;
+    font-size: 40px;
+    color: #FE7122;
+}
+/* ---------------------------------------------------
+    FOOTER    
+----------------------------------------------------- */
+footer {
+    background-color: #2F3238;
+    color: #a9a9a9;
+    font-size: 13px;
+    padding: 3em 0 1em 0;
+}
+footer hr {
+    border-color: #67696E;
+    border-top: none;
+    border-bottom: 1px solid;
+}
+footer a,
+footer a:hover {
+    color: inherit;
+}
+footer .menu + .menu {
+    margin-left: 5em;
+}
+footer .menu li + li {
+    margin-top: 1em;
+}
+footer .red {
+    color: #FF7102;
+    font-size: 20px;
+}
+footer .title {
+    color: #0D7855;
+    font-size: 15px;
+    font-weight: bold;
+}
+.contact-list dd i {
+    color: #FF7100;
+    width: 15px;
+    text-align: center;
+}
+.contact-list {
+    font-size: 16px;
+}
+.contact-list a {
+    color: inherit;
+}
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 425px) {
+    .submenu ul li {
+        display: block;
+    }
+    .submenu ul li + li {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .navbar-nav {
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .navbar-light .navbar-nav .nav-item + .nav-item {
+        margin-left: 0;
+
+    }
+    .navbar-light .navbar-nav .nav-item {
+        padding: 0 10px;
+    }
+}

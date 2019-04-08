@@ -81,7 +81,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" name="destacado" id="defaultCheck1">
+                                            <input class="form-check-input" type="checkbox" name="destacado" value="1" id="defaultCheck1">
                                             <label class="form-check-label" for="defaultCheck1">
                                                 Producto destacado?
                                             </label>
@@ -95,7 +95,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <fieldset>
-                                            <legend><button id="btnCaracteristicas" type="button" onclick="addOpciones(this)" class="btn btn-dark">Características <i class="fas fa-plus"></i></button></legend>
+                                            <legend class="legend-btn"><button id="btnCaracteristicas" type="button" onclick="addOpciones(this)" class="btn btn-dark">Características <i class="fas fa-plus"></i></button></legend>
                                             <div id="wrapper-opciones">
                                             </div>
                                             <small class="text-muted">Arrestre los elementos para ordernar</small>
@@ -105,7 +105,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <fieldset>
-                                            <legend><button id="btnImagenes" type="button" onclick="addImagenes(this)" class="btn btn-dark">Imágenes <i class="fas fa-plus"></i></button></legend>
+                                            <legend class="legend-btn"><button id="btnImagenes" type="button" onclick="addImagenes(this)" class="btn btn-dark">Imágenes <i class="fas fa-plus"></i></button></legend>
                                             <div id="wrapper-imagenes">
                                             </div>
                                             <small class="text-muted">Arrestre los elementos para ordernar. La primera imagen será la portada</small>
@@ -195,8 +195,8 @@
         else
             action = "{{ url('/adm/familia/producto/store') }}";
         if(data !== null) {
-            console.log(data)
             data.data = JSON.parse(data.data);
+            console.log(data.data)
             $(`[name="titulo"]`).val(data.titulo);
             $('[name="orden"]').val(data.orden);
             if(data.data.video !== null)
@@ -234,6 +234,7 @@
         promiseFunction = () => {
             promise
                 .then(function(data) {
+                    console.log(data)
                     $(t).removeAttr("disabled");
                     addProducto($("#btnADD"),parseInt(id),data);
                 })
@@ -251,12 +252,13 @@
                     html += '<div>';
                         html += '<div class="custom-file">';
                             html += `<input onchange="readURL(this, '#card-car-${window.imgOpciones}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">`;
-                            html += '<label data-invalid="Archivo - 83x83" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                            html += '<label data-invalid="Archivo - 83x83" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>';
                         html += '</div>';
                         html += '<input placeholder="Nombre" name="nombre[]" type="text" class="form-control mt-2"/>';
                     html += '</div>';
                 html += '</div>';
                 html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
+                    html += `<input name="nombreCar[]" type="hidden" value="${window.imgOpciones}"/>`;
                     html += `<img id="card-car-${window.imgOpciones}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
                     html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
                 html += '</div>';
@@ -266,8 +268,9 @@
 
         if(data !== null) {
             target.find("> fieldset.bg-dark:last-child()").find(".row input[type='text']").val(data.nombre);
-            img = '{{ asset("/") }}' + data.img;
-            target.find("> fieldset.bg-dark:last-child()").find(".row img").attr("src",img);
+            imgAux = '{{ asset("/") }}' + data.img;
+            target.find("> fieldset.bg-dark:last-child()").find(".row input[type='hidden']").val(data.img);
+            target.find("> fieldset.bg-dark:last-child()").find(".row img").attr("src",imgAux);
         }
     }
     addImagenes = function(t, data = null) {
@@ -280,10 +283,11 @@
                 html += '<div class="col-md-8 d-flex flex align-items-center">';
                     html += '<div class="custom-file">';
                         html += `<input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img[]" accept="image/*" class="custom-file-input" lang="es">`;
-                        html += '<label data-invalid="Archivo - 340x340" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                        html += '<label data-invalid="Archivo - 340x340" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>';
                     html += '</div>';
                 html += '</div>';
                 html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
+                    html += `<input name="nombreImg[]" type="hidden" value="${window.img}"/>`;
                     html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
                     html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
                 html += '</div>';
@@ -292,8 +296,9 @@
     
         target.append(html);
         if(data !== null) {
-            img = '{{ asset("/") }}' + data.img;
-            target.find("> fieldset.bg-dark:last-child()").find(".row img").attr("src",img);
+            imageAux = '{{ asset("/") }}' + data.img;
+            target.find("> fieldset.bg-dark:last-child()").find(".row img").attr("src",imageAux);
+            target.find("> fieldset.bg-dark:last-child()").find(".row input[type='hidden']").val(data.img);
         }
     }
     readURL = function(input, target) {
@@ -304,6 +309,7 @@
                 $(target).attr(`src`,`${e.target.result}`);
             };
             reader.readAsDataURL(input.files[0]);
+            $(`${target}`).parent().find("input[type='hidden']").val(0);
         }
     };
     addDelete = function(t) {
@@ -314,6 +320,40 @@
         CKEDITOR.instances['descripcion'].setData('');
         CKEDITOR.instances['detalle'].setData('');
         $("#familia_id").val($("#familia_id option:first-child()").val()).trigger("change");
+    };
+    deleteProducto = function(id, t) {
+        $(t).attr("disabled",true);
+        let promise = new Promise(function (resolve, reject) {
+            let url = `{{ url('/adm/familia/producto/delete') }}/${id}`;
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, true );
+            
+            xmlHttp.onload = function() {
+                resolve(xmlHttp.responseText);
+            }
+            xmlHttp.send( null );
+            
+        });
+
+        promiseFunction = () => {
+            promise
+                .then(function(msg) {
+                    switch(parseInt(msg)) {
+                        case -1:
+                            mensaje = "NO SE PUEDE ELIMINAR.\nExisten PROYECTOS ACTIVOS relacionados, para procecder suprima estos desde la sección correspondiente y vuelva a intentar";
+                    }
+                    
+                    if(parseInt(msg) == 0) {
+                        $("#tabla").find(`tr[data-id="${id}"]`).remove();
+                        if($("#tabla").find("tbody").html().trim() == "")
+                            $("#tabla").find("tbody").html('<tr><td colspan="4" class="text-uppercase text-center">sin datos</td></tr>');
+                    } else {
+                        alert(mensaje);
+                        $(t).removeAttr("disabled");
+                    }
+                })
+        };
+        promiseFunction();
     };
     $("#wrapper-opciones,#wrapper-imagenes").sortable({
         axis: "y",

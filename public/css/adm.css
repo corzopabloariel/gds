@@ -28,6 +28,9 @@ a:focus {
     margin: 40px 0;
 }
 
+.title {
+    color: #0C7854;
+}
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -89,6 +92,13 @@ a[aria-expanded="true"] {
 #sidebar ul li.active > a i {
     color: #fff;
 }
+
+/* Scroll Nav */
+
+#sidebar *::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); background-color: #CCCCCC; }
+#sidebar *::-webkit-scrollbar { width: 8px; background-color: #CCCCCC; }
+#sidebar *::-webkit-scrollbar-thumb { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); background-color: #000; }
+
 a[data-toggle="collapse"] {
     position: relative;
 }
@@ -104,7 +114,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 46px !important;
-    background: #f0f0f0;
+    background: #fafafa;
 }
 
 ul.CTAs {
@@ -155,6 +165,8 @@ a.article:hover {
     cursor: move;
 }
 #wrapper-opciones .row + .row,
+#wrapper-email .row + .row,
+#wrapper-telefono .row + .row,
 #wrapper-opciones > fieldset + fieldset,
 #wrapper-imagenes > fieldset + fieldset,
 #wrapper-numeros .row + .row,
@@ -163,6 +175,8 @@ a.article:hover {
     margin-top: 1em;
 }
 #wrapper-opciones .row i,
+#wrapper-email .row i,
+#wrapper-telefono .row i,
 #wrapper-numeros .row i,
 #wrapper-caracteristicas .row i,
 #wrapper-clientes .row i,
@@ -207,17 +221,31 @@ input.custom-file-input:valid + label {
 fieldset {
     border: 1px solid #ddd;
     padding: 10px;
+    margin-top: 1em;
 }
 fieldset legend {
     width: auto;
-    padding: 10px 15px;
-    margin-top: 0;
+    padding: 2px 5px;
+    margin: 0;
+    border: 1px solid #ddd;
+    line-height: initial;
+    text-transform: uppercase;
+    background-color: #fff;
+}
+fieldset legend.legend-btn {
+    padding: 0;
+    border: none;
+    background-color: transparent;
 }
 /* ---------------------------------------------------
     TABLE
 ----------------------------------------------------- */
 .table td, .table th {
     vertical-align: middle;
+}
+.table-meta-4 thead th:first-child,
+.table-meta-4 tbody td:first-child {
+    width: 100px;
 }
 .table-img-4 thead th:first-child,
 .table-img-4 tbody td:first-child {
@@ -226,7 +254,9 @@ fieldset legend {
 }
 .table-img-4 thead th:nth-child(2),
 .table-img-4 thead th:last-child,
-.table-img-4 tbody td:last-child {
+.table-img-4 tbody td:last-child,
+.table-meta-4 thead th:last-child,
+.table-meta-4 tbody td:last-child {
     width: 180px;
     text-align: center;
 }

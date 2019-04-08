@@ -14,11 +14,11 @@
                     window.img ++;
                 </script>
                 <div class="col-md-5">
-                    <input value="{{ $contenido["data"]["acerca"]["opciones"][$i]["numero"] }}" placeholder="Número" name="numero[]" type="number" class="form-control"/>
+                    <input value="{{ $contenido['data']['acerca']['opciones'][$i]['numero'] }}" placeholder="Número" name="numero[]" type="number" class="form-control"/>
                 </div>
                 <div class="col-md-7 position-relative">
                     <i onclick="$(this).closest('.row').remove()" class="fas fa-backspace position-absolute text-danger"></i>
-                    <input value="{{ $contenido["data"]["acerca"]["opciones"][$i]["nombre"] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
+                    <input value="{{ $contenido['data']['acerca']['opciones'][$i]['nombre'] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
                 </div>
             </div>
             @endfor
@@ -29,11 +29,11 @@
 <hr/>
 <div class="row mt-2">
     <div class="col-md-6">
-        <input placeholder="Misión: Título" name="misionTitulo" type="text" class="form-control mb-3" value="{!! $contenido["data"]["mision"]["titulo"] !!}"/>
+        <input placeholder="Misión: Título" name="misionTitulo" type="text" class="form-control mb-3" value="{!! $contenido['data']['mision']['titulo'] !!}"/>
         <textarea placeholder="Misión" id="mision" name="mision" class="validate ckeditor w-100">{!! $contenido["data"]["mision"]["texto"] !!}</textarea>
     </div>
     <div class="col-md-6">
-        <input placeholder="Valores: Título" name="valorTitulo" type="text" class="form-control mb-3" value="{!! $contenido["data"]["valor"]["titulo"] !!}"/>
+        <input placeholder="Valores: Título" name="valorTitulo" type="text" class="form-control mb-3" value="{!! $contenido['data']['valor']['titulo'] !!}"/>
         <textarea placeholder="Valores" id="valor" name="valor" class="validate ckeditor w-100">{!! $contenido["data"]["valor"]["texto"] !!}</textarea>
     </div>
 </div>

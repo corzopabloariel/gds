@@ -53,6 +53,7 @@ class SliderController extends Controller
                 $imageName = time().'.'.$file->getClientOriginalExtension();
                 $file->move($path, $imageName);
                 $ARR_data[$f] = "images/sliders/{$seccion}/{$imageName}";
+                
                 continue;
             }
             if(isset($datosRequest[$f]))

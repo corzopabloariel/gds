@@ -25,6 +25,11 @@ body {
     background-color:#0C694A;
     border-color:#0F845E
 }
+a.btn-gds:hover {
+    color:#fff;
+    background-color:#0C694A !important;
+    border-color:#0F845E !important;
+}
 .btn-gds.focus,
 .btn-gds:focus {
     box-shadow:0 0 0 .2rem rgba(15,132,94,.5)
@@ -46,4 +51,14 @@ body {
 .btn-gds:not(:disabled):not(.disabled):active:focus,
 .show > .btn-gds.dropdown-toggle:focus {
     box-shadow:0 0 0 .2rem rgba(13,120,85,.5)
+}
+
+a.btn-gds i,
+a.btn-danger i {
+    color: #fff !important;
+}
+a.btn-danger:hover {
+    color: #fff;
+    background-color: #c82333 !important;
+    border-color: #bd2130 !important;
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\adm;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Familia;
+use App\Producto;
 class FamiliaController extends Controller
 {
     /**
@@ -116,12 +117,16 @@ class FamiliaController extends Controller
      */
     public function destroy($id)
     {
+        $prev_search = Producto::where("familia_id",$id)->get();
+        if(!empty($prev_search))
+            return -1;
+
         $data = self::edit($id);
         $filename = public_path() . "/" . $data["img"];
         if (file_exists($filename))
             unlink($filename);
 
         Familia::destroy($id);
-        return 1;
+        return 0;
     }
 }

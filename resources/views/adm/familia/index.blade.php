@@ -37,7 +37,7 @@
                                         <div class="col-12">
                                             <div class="custom-file">
                                                 <input onchange="readURL(this);" required type="file" name="img" accept="image/*" class="custom-file-input" lang="es">
-                                                <label data-invalid="Seleccione archivo - 304x293" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                                <label data-invalid="Seleccione archivo - 304x293" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                                             </div>
                                             <small class="form-text text-muted">
                                             La dimensión de la imagen es la recomendada
@@ -107,16 +107,28 @@ let deleteFamilia = function(id, t) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "GET", url, true );
         
+        xmlHttp.onload = function() {
+            resolve(xmlHttp.responseText);
+        }
         xmlHttp.send( null );
-        resolve(xmlHttp.responseText);
     });
 
     promiseFunction = () => {
         promise
             .then(function(msg) {
-                $("#tabla").find(`tr[data-id="${id}"]`).remove();
-                if($("#tabla").find("tbody").html().trim() == "")
-                    $("#tabla").find("tbody").html('<tr><td colspan="4" class="text-uppercase text-center">sin datos</td></tr>');
+                switch(parseInt(msg)) {
+                    case -1:
+                        mensaje = "NO SE PUEDE ELIMINAR.\nExisten PRODUCTOS ACTIVOS relacionados, para procecder suprima estos desde la sección correspondiente y vuelva a intentar";
+                }
+                
+                if(parseInt(msg) == 0) {
+                    $("#tabla").find(`tr[data-id="${id}"]`).remove();
+                    if($("#tabla").find("tbody").html().trim() == "")
+                        $("#tabla").find("tbody").html('<tr><td colspan="4" class="text-uppercase text-center">sin datos</td></tr>');
+                } else {
+                    alert(mensaje);
+                    $(t).removeAttr("disabled");
+                }
             })
     };
     promiseFunction();

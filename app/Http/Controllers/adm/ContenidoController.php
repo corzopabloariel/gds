@@ -47,13 +47,17 @@ class ContenidoController extends Controller
             case "home":
                 $file = $request->file("img");
                 if(!is_null($file)) {
-                    $path = public_path('images/producto/')."{$seccion}";
+                    $path = public_path('images/general/')."{$seccion}";
                     if (!file_exists($path))
                         mkdir($path, 0777, true);
                     
                     $imageName = time().'.'.$file->getClientOriginalExtension();
                     $file->move($path, $imageName);
-                    $img = "images/producto/{$seccion}/{$imageName}";
+                    $img = "images/general/{$seccion}/{$imageName}";
+                    
+                    $filename = public_path() . "/" . $contenido["data"]["img"];
+                    if (file_exists($filename))
+                        unlink($filename);
                 } else
                     $img = $contenido["data"]["img"];
                 // 
@@ -63,33 +67,46 @@ class ContenidoController extends Controller
                     "img" => $img,
                     "opciones" => []
                 ];
-                if(isset($datosRequest["nombre"])) {
-                    for($i = 0; $i < count($datosRequest["nombre"]); $i++) {
-                        $files = $request->file('img_opcion');
+                $A_caracteristicas = [];
+                if(isset($datosRequest["nombreCar"])) {
+                    $files = $request->file('img_opcion');
+                    for($i = 0; $i < count($datosRequest["nombreCar"]); $i++) {
                         $opcion = null;
-        
-                        for($j = 0; $j < count($contenido["data"]["opciones"]); $j++) {
-                            if(strcasecmp($contenido["data"]["opciones"][$j]["titulo"], $datosRequest["nombre"][$i]) == 0) {
-                                $opcion = $contenido["data"]["opciones"][$j];
-                                break;
-                            }
-                        }
                         $img = null;
-                        if(!is_null($opcion))
-                            $img = $opcion["img"];
-                        if(!is_null($files[$i])) {
-                            $path = public_path('images/general/')."{$seccion}";
-                            if (!file_exists($path))
-                                mkdir($path, 0777, true);
-                            
-                            $imageName = time().'_opciones_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
-                            $files[$i]->move($path, $imageName);
-                            $img = "images/general/{$seccion}/{$imageName}";
+
+                        if(is_numeric($datosRequest["nombreCar"][$i])) {
+                            if(!is_null($files[$i])) {
+                                $path = public_path('images/general/')."{$seccion}";
+                                if (!file_exists($path))
+                                    mkdir($path, 0777, true);
+                                
+                                $imageName = time().'_opciones_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
+                                $files[$i]->move($path, $imageName);
+                                $img = "images/general/{$seccion}/{$imageName}";
+                            }
+                        } else {
+                            for($j = 0; $j < count($contenido["data"]["opciones"]); $j++) {
+                                if(strcasecmp($contenido["data"]["opciones"][$j]["titulo"], $datosRequest["nombre"][$i]) == 0) {
+                                    $opcion = $contenido["data"]["opciones"][$j];
+                                    $A_caracteristicas[] = $contenido["data"]["opciones"][$j]["img"];
+                                    break;
+                                }
+                            }
+                            if(!is_null($opcion))
+                                $img = $opcion["img"];
                         }
+                        
                         $data["opciones"][] = ["img" => $img,"titulo" => $datosRequest["nombre"][$i]];
                     }
                 } else
                     $data = $contenido["data"];
+                for($j = 0; $j < count($contenido["data"]["opciones"]); $j++) {
+                    if(!in_array($contenido["data"]["opciones"][$j]["img"],$A_caracteristicas))  {
+                        $filename = public_path() . "/" . $contenido["data"]["opciones"][$j]["img"];
+                        if (file_exists($filename))
+                            unlink($filename);
+                    }
+                }
                 break;
             case "empresa":
                 $data = [
@@ -127,30 +144,43 @@ class ContenidoController extends Controller
                     ],
                     "caracteristicas" => []
                 ];
-                if(isset($datosRequest["nombre"])) {
-                    for($i = 0; $i < count($datosRequest["nombre"]); $i++) {
-                        $files = $request->file('img_opcion');
-                        $opcion = null;
-        
-                        for($j = 0; $j < count($contenido["data"]["caracteristicas"]); $j++) {
-                            if(strcasecmp($contenido["data"]["caracteristicas"][$j]["titulo"], $datosRequest["nombre"][$i]) == 0) {
-                                $opcion = $contenido["data"]["caracteristicas"][$j];
-                                break;
-                            }
-                        }
+                $A_caracteristicas = [];
+                if(isset($datosRequest["nombreCar"])) {
+                    $files = $request->file('img_opcion');
+                    for($i = 0; $i < count($datosRequest["nombreCar"]); $i++) {
                         $img = null;
-                        if(!is_null($opcion))
-                            $img = $opcion["img"];
-                        if(!is_null($files[$i])) {
-                            $path = public_path('images/general/')."{$seccion}";
-                            if (!file_exists($path))
-                                mkdir($path, 0777, true);
-                            
-                            $imageName = time().'_caracteristicas_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
-                            $files[$i]->move($path, $imageName);
-                            $img = "images/general/{$seccion}/{$imageName}";
+                        if(is_numeric($datosRequest["nombreCar"][$i])) {
+                            if(!is_null($files[$i])) {
+                                $path = public_path('images/general/')."{$seccion}";
+                                if (!file_exists($path))
+                                    mkdir($path, 0777, true);
+                                
+                                $imageName = time().'_caracteristicas_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
+                                $files[$i]->move($path, $imageName);
+                                $img = "images/general/{$seccion}/{$imageName}";
+                            }
+                        } else {
+                            $opcion = null;
+            
+                            for($j = 0; $j < count($contenido["data"]["caracteristicas"]); $j++) {
+                                if(strcasecmp($contenido["data"]["caracteristicas"][$j]["titulo"], $datosRequest["nombre"][$i]) == 0) {
+                                    $opcion = $contenido["data"]["caracteristicas"][$j];
+                                    $A_caracteristicas[] = $contenido["data"]["caracteristicas"][$j]["img"];
+                                    break;
+                                }
+                            }
+                            if(!is_null($opcion))
+                                $img = $opcion["img"];
                         }
+                        
                         $data["caracteristicas"][] = ["img" => $img,"titulo" => $datosRequest["nombre"][$i]];
+                    }
+                    for($j = 0; $j < count($contenido["data"]["caracteristicas"]); $j++) {
+                        if(!in_array($contenido["data"]["caracteristicas"][$j]["img"],$A_caracteristicas))  {
+                            $filename = public_path() . "/" . $contenido["data"]["caracteristicas"][$j]["img"];
+                            if (file_exists($filename))
+                                unlink($filename);
+                        }
                     }
                 } else
                     $data = $contenido["data"];
@@ -167,30 +197,42 @@ class ContenidoController extends Controller
                     "texto" => $datosRequest["texto"],
                     "listado" => []
                 ];
-                if(isset($datosRequest["nombre"])) {
-                    for($i = 0; $i < count($datosRequest["nombre"]); $i++) {
-                        $files = $request->file('img_opcion');
+                $A_caracteristicas = [];
+                if(isset($datosRequest["nombreCar"])) {
+                    $files = $request->file('img_opcion');
+                    for($i = 0; $i < count($datosRequest["nombreCar"]); $i++) {
                         $opcion = null;
-        
-                        for($j = 0; $j < count($contenido["data"]["listado"]); $j++) {
-                            if(strcasecmp($contenido["data"]["listado"][$j]["nombre"], $datosRequest["nombre"][$i]) == 0) {
-                                $opcion = $contenido["data"]["listado"][$j];
-                                break;
-                            }
-                        }
                         $img = null;
-                        if(!is_null($opcion))
-                            $img = $opcion["img"];
-                        if(!is_null($files[$i])) {
-                            $path = public_path('images/general/')."{$seccion}";
-                            if (!file_exists($path))
-                                mkdir($path, 0777, true);
-                            
-                            $imageName = time().'_clientes_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
-                            $files[$i]->move($path, $imageName);
-                            $img = "images/general/{$seccion}/{$imageName}";
+                        if(is_numeric($datosRequest["nombreCar"][$i])) {
+                            if(!is_null($files[$i])) {
+                                $path = public_path('images/general/')."{$seccion}";
+                                if (!file_exists($path))
+                                    mkdir($path, 0777, true);
+                                
+                                $imageName = time().'_clientes_' . ($i + 1) . '.'.$files[$i]->getClientOriginalExtension();
+                                $files[$i]->move($path, $imageName);
+                                $img = "images/general/{$seccion}/{$imageName}";
+                            }
+                        } else {
+                            for($j = 0; $j < count($contenido["data"]["listado"]); $j++) {
+                                if(strcasecmp($contenido["data"]["listado"][$j]["nombre"], $datosRequest["nombre"][$i]) == 0) {
+                                    $opcion = $contenido["data"]["listado"][$j];
+                                    $A_caracteristicas[] = $contenido["data"]["listado"][$j]["img"];
+                                    break;
+                                }
+                            }
+                            if(!is_null($opcion))
+                                $img = $opcion["img"];
                         }
+                        
                         $data["listado"][] = ["img" => $img,"nombre" => $datosRequest["nombre"][$i]];
+                    }
+                    for($j = 0; $j < count($contenido["data"]["listado"]); $j++) {
+                        if(!in_array($contenido["data"]["listado"][$j]["img"],$A_caracteristicas))  {
+                            $filename = public_path() . "/" . $contenido["data"]["listado"][$j]["img"];
+                            if (file_exists($filename))
+                                unlink($filename);
+                        }
                     }
                 } else
                     $data = $contenido["data"];

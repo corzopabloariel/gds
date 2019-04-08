@@ -30,9 +30,9 @@
                                 <div class="custom-file">
                                     <input onchange="readURL(this);" required type="file" name="img" accept="image/*" class="custom-file-input" lang="es">
                                     @if($seccion == "ecobruma")
-                                        <label data-invalid="Seleccione archivo - 561x534" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                        <label data-invalid="Seleccione archivo - 561x534" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                                     @else
-                                        <label data-invalid="Seleccione archivo - 1350x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+                                        <label data-invalid="Seleccione archivo - 1350x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                                     @endif
                                 </div>
                             </div>

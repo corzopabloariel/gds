@@ -4,7 +4,7 @@
 
         <div class="custom-file">
             <input onchange="readURL(this, '#card-img');" required type="file" name="img" accept="image/*" class="custom-file-input" lang="es">
-            <label data-invalid="Seleccione archivo - 450x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" for="customFileLang"></label>
+            <label data-invalid="Seleccione archivo - 450x450" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
         </div>
 
         <img id="card-img" class="w-100 d-block mt-2" src="{{ asset($contenido['data']['img']) }}?t=<?php echo time(); ?>" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
@@ -28,10 +28,11 @@
                         <div class="col-md-5">
                             <div class="custom-file">
                                 <input onchange="readURL(this, '#card-img-{{ $i + 1 }}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">
-                                <label data-invalid="Archivo - 33x33" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>
+                                <label data-invalid="Archivo - 33x33" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                             </div>
                         </div>
                         <div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">
+                            <input name="nombreCar[]" type="hidden" value="{{$contenido['data']['opciones'][$i]['img']}}"/>
                             <img id="card-img-{{ $i + 1 }}" class="w-100 d-block" src="{{ asset($contenido['data']['opciones'][$i]['img']) }}?t=<?php echo time(); ?>" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
                         </div>
                         <div class="col-md-6 position-relative">
@@ -64,10 +65,11 @@
             html += '<div class="col-md-5">';
                 html += '<div class="custom-file">';
                     html += `<input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">`;
-                    html += '<label data-invalid="Archivo - 33x33" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                    html += '<label data-invalid="Archivo - 33x33" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>';
                 html += '</div>';
             html += '</div>';
             html += '<div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">';
+                html += `<input name="nombreCar[]" type="hidden" value="${window.img}"/>`;
                 html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
             html += '</div>';
             html += '<div class="col-md-6 position-relative">';
@@ -87,6 +89,7 @@
                 $(target).attr(`src`,`${e.target.result}`);
             };
             reader.readAsDataURL(input.files[0]);
+            $(target).parent().find("input[type='hidden']").val(0);
         }
     };
 

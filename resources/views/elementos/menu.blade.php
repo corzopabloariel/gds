@@ -1,7 +1,7 @@
 <div class="sidebar-header">
     <h3 class="m-0">Menu</h3>
 </div>
-<div class="position-relative" style="height: calc(100% - 73px); overflow-y:auto;">
+<div class="position-relative" style="height: calc(100% - 73px - 38px); overflow-y:auto;">
     <div class="w-100 position-absolute">
         <ul class="list-unstyled components m-0 p-0">
             <li class="">
@@ -30,10 +30,10 @@
                 <a href="#productosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-project-diagram mr-2"></i>Productos</a>
                 <ul class="collapse list-unstyled" id="productosSubmenu">
                     <li>
-                        <a href="{{ route('familia.index')}}">Familia</a>
+                        <a href="{{ route('familia.index')}}">Todas las Familias</a>
                     </li>
                     <li>
-                        <a href="{{ route('familia.producto.index')}}">Todos</a>
+                        <a href="{{ route('familia.producto.index')}}">Todos los Productos</a>
                     </li>
                 </ul>
             </li>
@@ -52,7 +52,7 @@
                 <a href="#videosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fab fa-youtube mr-2"></i>Videos</a>
                 <ul class="collapse list-unstyled" id="videosSubmenu">
                     <li>
-                        <a href="{{ route('contenido.edit', ['seccion' => 'videos'])}}">Contenido</a>
+                        <a href="{{ route('contenido.edit', ['seccion' => 'videos'])}}">Todos los videos</a>
                     </li>
                 </ul>
             </li>
@@ -60,7 +60,7 @@
                 <a href="#clientesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user-tie mr-2"></i>Clientes</a>
                 <ul class="collapse list-unstyled" id="clientesSubmenu">
                     <li>
-                        <a href="{{ route('contenido.edit', ['seccion' => 'clientes'])}}">Contenido</a>
+                        <a href="{{ route('contenido.edit', ['seccion' => 'clientes'])}}">Todos los clientes</a>
                     </li>
                 </ul>
             </li>
@@ -68,25 +68,33 @@
                 <a href="#proyectosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-network-wired mr-2"></i>Proyectos</a>
                 <ul class="collapse list-unstyled" id="proyectosSubmenu">
                     <li>
-                        <a href="#">Todos</a>
+                        <a href="{{ route('proyecto.index')}}">Todos los proyectos</a>
                     </li>
                 </ul>
             </li>
             <li><hr/></li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Información</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">GDS</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="#">Page 1</a>
+                        <a href="{{ route('empresa.index')}}">Datos</a>
                     </li>
                     <li>
-                        <a href="#">Page 2</a>
+                        <a href="{{ route('empresa.metadatos')}}">Metadatos</a>
                     </li>
                     <li>
-                        <a href="#">Page 3</a>
+                        <a href="{{ route('empresa.usuarios')}}">Usuarios</a>
                     </li>
                 </ul>
             </li>
         </ul>
+    </div>
+</div>
+<div class="row m-0 position-absolute w-100" style="bottom: 0; left: 0;">
+    <div class="col-12 col-md-6 px-0">
+        <a href="https://osole.freshdesk.com/support/home" target="_blank" class="btn-gds py-2 btn-block text-uppercase text-center"><i class="fas fa-ticket-alt mr-2"></i>soporte</a>
+    </div>
+    <div class="col-12 col-md-6 px-0">
+        <a href="{{route('adm.logout')}}" class="btn-danger btn-block py-2 text-uppercase text-center"><i class="fas fa-power-off mr-2"></i>Salir</a>
     </div>
 </div>

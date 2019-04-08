@@ -9,7 +9,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon3">http://www.youtube.com/watch?v=</span>
             </div>
-            <input value="{{ $contenido["data"]["video"] }}" type="text" class="form-control" id="video" name="video" aria-describedby="basic-addon3">
+            <input value="{{ $contenido['data']['video'] }}" type="text" class="form-control" id="video" name="video" aria-describedby="basic-addon3">
             <i onclick="link(this);" class="position-absolute link-video fab fa-youtube"></i>
         </div>
         <hr/>
@@ -24,15 +24,16 @@
                 <div class="col-md-5">
                     <div class="custom-file">
                         <input onchange="readURL(this, '#card-img-{{$i + 1}}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">
-                        <label data-invalid="Archivo - 55x55" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>
+                        <label data-invalid="Archivo - 55x55" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                     </div>
                 </div>
                 <div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">
-                    <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{ asset($contenido["data"]["caracteristicas"][$i]["img"])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                    <input name="nombreCar[]" type="hidden" value="{{$contenido['data']['caracteristicas'][$i]['img']}}" />
+                    <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{ asset($contenido['data']['caracteristicas'][$i]['img'])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
                 </div>
                 <div class="col-md-6 position-relative">
                     <i onclick="$(this).closest('.row').remove()" class="fas fa-backspace position-absolute text-danger"></i>
-                    <input value="{{ $contenido["data"]["caracteristicas"][$i]["titulo"] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
+                    <input value="{{ $contenido['data']['caracteristicas'][$i]['titulo'] }}" placeholder="Nombre" name="nombre[]" type="text" class="form-control"/>
                 </div>
             </div>
             @endfor
@@ -43,7 +44,7 @@
 <hr/>
 <div class="row mt-2">
     <div class="col-md-6">
-        <input placeholder="Dinámica: Título" name="dinamicaTitulo" type="text" class="form-control mb-3" value="{!! $contenido["data"]["dinamica"]["titulo"] !!}"/>
+        <input placeholder="Dinámica: Título" name="dinamicaTitulo" type="text" class="form-control mb-3" value="{!! $contenido['data']['dinamica']['titulo'] !!}"/>
         <textarea placeholder="Dinámica" id="dinamica" name="dinamica" class="validate ckeditor w-100">{!! $contenido["data"]["dinamica"]["texto"] !!}</textarea>
     </div>
     <div class="col-md-6">
@@ -77,10 +78,11 @@
             html += '<div class="col-md-5">';
                 html += '<div class="custom-file">';
                     html += `<input onchange="readURL(this, '#card-img-${window.img}');" required type="file" name="img_opcion[]" accept="image/*" class="custom-file-input" lang="es">`;
-                    html += '<label data-invalid="Archivo - 55x55" data-valid="Archivo" class="custom-file-label mb-0" for="customFileLang"></label>';
+                    html += '<label data-invalid="Archivo - 55x55" data-valid="Archivo" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>';
                 html += '</div>';
             html += '</div>';
             html += '<div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">';
+            html += `<input name="nombreCar[]" type="hidden" value="${window.img}"/>`;
                 html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
             html += '</div>';
             html += '<div class="col-md-6 position-relative">';
@@ -100,6 +102,7 @@
                 $(target).attr(`src`,`${e.target.result}`);
             };
             reader.readAsDataURL(input.files[0]);
+            $(target).parent().find("input[type='hidden']").val(0);
         }
     };
 
