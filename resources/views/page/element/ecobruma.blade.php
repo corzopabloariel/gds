@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2 class="title">Ecobruma</h2>
+                <h3 class="title">Ecobruma</h3>
             </div>
         </div>
         <div class="row mt-2">
@@ -59,7 +59,7 @@
             <div class="col-md-5">
                 <p class="mb-0 mx-auto w-75 text-center">Para más información, mirá el video a continuación</p>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <iframe class="w-100" src="https://www.youtube.com/embed/{{$contenido['video']}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>

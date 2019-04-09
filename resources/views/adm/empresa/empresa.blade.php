@@ -110,6 +110,11 @@
             <legend class="legend-btn">
                 <button id="btnEmail" type="button" onclick="addEmail(this)" class="btn btn-dark">Email <i class="fas fa-plus"></i></button>
             </legend>
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">Posiciones de emails</h4>
+                <p class="mb-0">Se colocará el primer email en el <strong>cabecera</strong> y <strong>pie</strong> de página.</p>
+                <p class="mb-0">Los registros se agruparan por nombre (opcional) en la parte pública.</p>
+            </div>
             <div class="" id="wrapper-email">
                 @foreach($datos["email"] AS $e)
                 <div class="row">
@@ -128,6 +133,9 @@
     </div>
 </div>
 @push('scripts')
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//cdn.ckeditor.com/4.7.3/full/ckeditor.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     
     addEmail = function(t) {
@@ -171,5 +179,13 @@
             reader.readAsDataURL(input.files[0]);
         }
     };
+    
+    $("#wrapper-email,#wrapper-telefono").sortable({
+        axis: "y",
+        revert: true,
+        scroll: false,
+        placeholder: "sortable-placeholder",
+        cursor: "move"
+    }).disableSelection();
 </script>
 @endpush

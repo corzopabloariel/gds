@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('headTitle', 'GDS :: ' . $seccion)</title>
+        <title>@yield('headTitle', 'GDS :: ' . strtoupper($seccion))</title>
         <!-- <Fonts> -->
         <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,400i,600,700,900" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -37,7 +37,15 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         @stack('scripts')
         <script>
-            
+            $(document).ready(function() {
+                window.url = "{{ url()->current() }}";
+                if(window.url.indexOf("proyectos") > 0) {
+                    aux = window.url.split("/proyectos");
+                    window.url = `${aux[0]}/proyectos`;
+                }
+
+                $(`nav .nav-link[href="${window.url}"]`).addClass("active");
+            });
         </script>
         
     </body>

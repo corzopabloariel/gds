@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse justify-content-end align-items-end flex-column" id="navbarSupportedContent">
             <div class="submenu">
                 <ul class="p-0">
-                    <li><a href="{{ URL::to( 'presupuesto' ) }}" class="text-uppercase">solicitar presupuesto</a></li>
+                    <li><a href="{{ URL::to( 'presupuesto' ) }}" class="nav-link text-uppercase">solicitar presupuesto</a></li>
                     <li><i class="fas fa-paper-plane mr-2" style="color: #FF7102"></i><a href="mailto:{{$empresa['email'][0]['e']}}">{{$empresa["email"][0]["e"]}}</a></li>
                 </ul>
             </div>

@@ -13,15 +13,21 @@
                     <button onclick="addDelete(this)" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
+                    <h5 class="card-title"></h5>
                     <form id="form" novalidate class="pt-2" action="{{ url('/adm/familia/store') }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         @method("POST")
                         <div class="row justify-content-md-center">
                             
-                            <div class="col-5 d-flex align-items-center">
+                            <div class="col-5">
+                                <label for="">Metadatos</label>
                                 <textarea placeholder="Metadatos" name="meta" class="form-control"></textarea>
+                                <small id="passwordHelpBlock" class="form-text text-muted">
+                                    Palabras separadas con coma (,)
+                                </small>
                             </div>
-                            <div class="col-5 d-flex align-items-center">
+                            <div class="col-5">
+                                <label for="">Descripción</label>
                                 <textarea placeholder="Descripción" name="descripcion" class="form-control"></textarea>
                             </div>
                             <div class="col-2 d-flex align-items-center">
@@ -74,10 +80,12 @@
 <script>
 addMetadato = function(t, id = 0, data = null) {
     let btn = $(t);
-    if(btn.is(":disabled"))
-        btn.removeAttr("disabled");
+    let tableBtn = $('table tbody .btn');
+    if($("#wrapper-form").is(":hidden"))
+        tableBtn.attr("disabled",true);
     else
-        btn.attr("disabled",true);
+        tableBtn.removeAttr("disabled");
+    
     $("#wrapper-form").toggle(800,"swing");
 
     action = `{{ url('/adm/empresa/metadato') }}/${id}`;
@@ -86,6 +94,7 @@ addMetadato = function(t, id = 0, data = null) {
         console.log(data)
         $(`[name="meta"]`).val(data.meta);
         $(`[name="descripcion"]`).val(data.descripcion);
+        $('.card-title').text(data.seccion.toUpperCase())
     }
     elmnt = document.getElementById("form");
     elmnt.scrollIntoView();
@@ -114,7 +123,7 @@ editMetadato = function(id, t) {
     promiseFunction();
 };
 addDelete = function(t) {
-    addFamilia($("#btnADD"));
+    addMetadato($("#btnADD"));
     $(`[name="orden"],[name="img"],[name="titulo"]`).val("");
     $("#card-img").attr("src","");
 };

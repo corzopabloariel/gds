@@ -1,6 +1,6 @@
 @extends('elementos.page')
 
-@section('headTitle', $title. ' | GDS')
+@section('headTitle', strtoupper($title). ' | GDS')
 @section('bodyTitle', $title)
 
 @section('body')

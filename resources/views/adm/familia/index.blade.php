@@ -27,10 +27,10 @@
                                 <div class="w-100">
                                     <div class="row">
                                         <div class="col-6">
-                                            <input placeholder="Orden" maxlength="3" name="orden" type="text" class="form-control text-uppercase text-center"/>
+                                            <input tabindex="1" placeholder="Orden" maxlength="3" name="orden" type="text" class="form-control text-uppercase text-center"/>
                                         </div>
                                         <div class="col-6">
-                                            <button type="submit" class="btn btn-block btn-success mr-1"><i class="fas fa-check"></i></button>
+                                            <button tabindex="3" type="submit" class="btn btn-block btn-success mr-1"><i class="fas fa-check"></i></button>
                                         </div>
                                     </div>
                                     <div class="row mt-4">
@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-12">
-                                            <input placeholder="Nombre" name="titulo" type="text" class="form-control"/>
+                                            <input tabindex="2" placeholder="Nombre" name="titulo" type="text" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +93,9 @@
 </section>
 @endsection
 @push('scripts')
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//cdn.ckeditor.com/4.7.3/full/ckeditor.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 $(document).on("ready",function() {
     $(".ckeditor").each(function () {

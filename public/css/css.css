@@ -53,6 +53,90 @@ a.btn-gds:hover {
     box-shadow:0 0 0 .2rem rgba(13,120,85,.5)
 }
 
+.btn-gds.focus,
+.btn-gds:focus {
+    box-shadow:0 0 0 .2rem rgba(15,132,94,.5)
+}
+.btn-gds.disabled,
+.btn-gds:disabled {
+    color:#fff;
+    background-color:#0D7855;
+    border-color:#0D7855
+}
+.btn-gds:not(:disabled):not(.disabled).active,
+.btn-gds:not(:disabled):not(.disabled):active,
+.show > .btn-gds.dropdown-toggle {
+    color:#fff;
+    background-color:#0F845E;
+    border-color:#0C6548
+}
+.btn-gds:not(:disabled):not(.disabled).active:focus,
+.btn-gds:not(:disabled):not(.disabled):active:focus,
+.show > .btn-gds.dropdown-toggle:focus {
+    box-shadow:0 0 0 .2rem rgba(13,120,85,.5)
+}
+/**/
+.btn-gds-reverse {
+    color:#0D7855;
+    background-color:transparent;
+    border-color:#0D7855
+}
+.btn-gds-reverse:hover {
+    color:#fff;
+    background-color:#0C694A;
+    border-color:#0F845E
+}
+a.btn-gds-reverse:hover {
+    color:#fff;
+    background-color:#0C694A !important;
+    border-color:#0F845E !important;
+}
+.btn-gds-reverse.focus,
+.btn-gds-reverse:focus {
+    box-shadow:0 0 0 .2rem rgba(15,132,94,.5)
+}
+.btn-gds-reverse.disabled,
+.btn-gds-reverse:disabled {
+    color:#fff;
+    background-color:#0D7855;
+    border-color:#0D7855
+}
+.btn-gds-reverse:not(:disabled):not(.disabled).active,
+.btn-gds-reverse:not(:disabled):not(.disabled):active,
+.show > .btn-gds-reverse.dropdown-toggle {
+    color:#fff;
+    background-color:#0F845E;
+    border-color:#0C6548
+}
+.btn-gds-reverse:not(:disabled):not(.disabled).active:focus,
+.btn-gds-reverse:not(:disabled):not(.disabled):active:focus,
+.show > .btn-gds-reverse.dropdown-toggle:focus {
+    box-shadow:0 0 0 .2rem rgba(13,120,85,.5)
+}
+
+.btn-gds-reverse.focus,
+.btn-gds-reverse:focus {
+    box-shadow:0 0 0 .2rem rgba(15,132,94,.5)
+}
+.btn-gds-reverse.disabled,
+.btn-gds-reverse:disabled {
+    color:#fff;
+    background-color:#0D7855;
+    border-color:#0D7855
+}
+.btn-gds-reverse:not(:disabled):not(.disabled).active,
+.btn-gds-reverse:not(:disabled):not(.disabled):active,
+.show > .btn-gds-reverse.dropdown-toggle {
+    color:#fff;
+    background-color:#0F845E;
+    border-color:#0C6548
+}
+.btn-gds-reverse:not(:disabled):not(.disabled).active:focus,
+.btn-gds-reverse:not(:disabled):not(.disabled):active:focus,
+.show > .btn-gds-reverse.dropdown-toggle:focus {
+    box-shadow:0 0 0 .2rem rgba(13,120,85,.5)
+}
+
 a.btn-gds i,
 a.btn-danger i {
     color: #fff !important;
