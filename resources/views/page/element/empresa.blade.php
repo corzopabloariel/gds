@@ -17,7 +17,7 @@
                     <div class="carousel-item">
                 @endif
                 <img class="d-block w-100" src="{{asset($slider[$i]['img'])}}" >
-                <div class="position-absolute w-100">
+                <div class="carousel-caption d-none d-md-block w-100" style="left:0; right:0; text-align: left">
                     <div class="container">
                         {!! $slider[$i]['texto'] !!}
                     </div>
@@ -50,15 +50,15 @@
                     </ul>
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-3 mision-vision">
                 <div class="col-md-6 col-12">
-                    <div class="p-3 shadow">
+                    <div class="shadow">
                         <h4 class="title">{{$contenido["mision"]["titulo"]}}</h4>
                         {!!$contenido["mision"]["texto"]!!}
                     </div>
                 </div>
                 <div class="col-md-6 col-12">
-                    <div class="p-3 shadow">
+                    <div class="shadow">
                         <h4 class="title">{{$contenido["valor"]["titulo"]}}</h4>
                         {!!$contenido["valor"]["texto"]!!}
                     </div>

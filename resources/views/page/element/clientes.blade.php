@@ -1,4 +1,4 @@
-<section class="wrapper-clientes">
+<section class="wrapper-clientes py-5">
     <div class="container">
         <div class="row py-3">
             <div class="col-12">

@@ -62,7 +62,7 @@ class FamiliaController extends Controller
             Familia::create($ARR_data);
         else {
             
-            if(isset($ARR_data["img"])) {
+            if(isset($data["img"])) {
                 $filename = public_path() . "/" . $data["img"];
                 if (file_exists($filename))
                     unlink($filename);

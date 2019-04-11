@@ -24,6 +24,7 @@ Route::get('proyectos', ['uses' => 'page\GdsController@proyectos', 'as' => 'proy
 Route::get('proyectos/{id}', ['uses' => 'page\GdsController@proyecto', 'as' => 'proyecto']);
 Route::get('contacto', ['uses' => 'page\GdsController@contacto', 'as' => 'contacto']);
 Route::get('presupuesto', ['uses' => 'page\GdsController@presupuesto', 'as' => 'presupuesto']);
+Route::post('form/{seccion}', ['uses' => 'page\GdsController@form', 'as' => 'form']);
 
 Auth::routes();
 
@@ -86,8 +87,19 @@ Route::group(['middleware' => 'auth', 'prefix' => 'adm'], function() {
         Route::post('metadato/{id}', ['uses' => 'adm\EmpresaController@metadatoPOST', 'as' => '.metadato']);
         
         Route::get('usuarios', ['uses' => 'adm\EmpresaController@usuarios', 'as' => '.usuarios']);
+
+
+        Route::get('mis_datos', ['uses' => 'adm\EmpresaController@mis_datos', 'as' => '.mis_datos']);
         Route::get('edit/{id}', ['uses' => 'adm\EmpresaController@edit', 'as' => '.edit']);
         Route::get('delete/{id}', ['uses' => 'adm\EmpresaController@destroy', 'as' => '.destroy']);
         Route::post('{seccion}/update', ['uses' => 'adm\EmpresaController@update', 'as' => 'update']);
+
+        Route::group(['prefix' => 'usuario', 'as' => '.usuario'], function() {
+            Route::get('/', ['uses' => 'adm\UserController@index', 'as' => '.index']);
+            Route::get('edit/{id}', ['uses' => 'adm\UserController@edit', 'as' => '.edit']);
+            Route::post('update/{id}', ['uses' => 'adm\UserController@update', 'as' => '.update']);
+            Route::post('store', ['uses' => 'adm\UserController@store', 'as' => '.store']);
+            Route::get('delete/{id}', ['uses' => 'adm\UserController@destroy', 'as' => '.destroy']);
+        });
     });
 });

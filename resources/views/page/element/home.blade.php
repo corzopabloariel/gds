@@ -17,11 +17,14 @@
                     <div class="carousel-item">
                 @endif
                 <img class="d-block w-100" src="{{asset($slider[$i]['img'])}}" >
-                <div class="position-absolute w-100">
+                <div class="carousel-caption d-none d-md-block w-100" style="left:0; right:0; text-align: left">
                     <div class="container">
                         {!! $slider[$i]['texto'] !!}
                     </div>
                 </div>
+                {{--<div class="position-absolute w-100">
+                        
+                </div>--}}
             </div>
             @endfor
         </div>
@@ -39,9 +42,13 @@
         <h3 class="title text-uppercase text-center mb-2">productos destacados</h3>
         <div class="container">
             <div class="row justify-content-md-center">
-                <div class="col-md-3 col-6">
+                <div class="col-md-3 col-12">
                     <a href="{{ route('ecobruma') }}">
-                        <img src="{{$ecobruma}}" alt="" class="w-100" srcset="">
+                        <div class="position-relative">
+                            <i class="fas fa-plus position-absolute"></i>
+                            <div class="position-absolute w-100 h-100"></div>
+                            <img src="{{$ecobruma}}" alt="" class="w-100" srcset="">
+                        </div>
                         <p class="m-0 p-2">Ecobruma</p>
                     </a>
                 </div>
@@ -55,9 +62,13 @@
                         $img = $p["imagenes"][0]["img"];
                     @endphp
                 @endforeach
-                <div class="col-md-3 col-6">
+                <div class="col-md-3 col-12">
                     <a href="">
-                        <img src="{{$img}}" alt="" class="w-100" srcset="">
+                        <div class="position-relative">
+                            <i class="fas fa-plus position-absolute"></i>
+                            <div class="position-absolute w-100 h-100"></div>
+                            <img src="{{$img}}" alt="" class="w-100" srcset="">
+                        </div>
                         <p class="m-0 p-2">{{$p["titulo"]}}</p>
                     </a>
                 </div>

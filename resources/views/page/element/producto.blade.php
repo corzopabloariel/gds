@@ -17,10 +17,7 @@
                                 @if(count($v["hijos"]) > 0)
                                 <ul class="list-group">
                                     @foreach($v["hijos"] AS $kk => $vv)
-                                        @php
-                                        $name = strtolower(str_replace(" ","_",$vv["titulo"]));
-                                        @endphp
-                                        <li class="list-group-item"><a href="{{ URL::to('productos/' . $name . '/'. $kk) }}">{{$vv["titulo"]}}</a></li>
+                                        <li class="list-group-item"><a href="{{ URL::to('productos/' . $vv['tituloLimpio'] . '/'. $kk) }}">{{$vv["titulo"]}}</a></li>
                                     @endforeach
                                 </ul>
                                 @endif
@@ -30,16 +27,16 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="row productos">
+                <div class="row productos mt-sm-2">
                     @foreach($productos AS $p)
                         @php
                             $img = null;
                             $images = $p->imagenes;
                             if(count($images) > 0)
                                 $img = $images[0]["img"];
-                            $name = strtolower(str_replace(" ","_",$p['titulo']));
+                            $name = $menu[$familia["id"]]["hijos"][$p["id"]]["tituloLimpio"];
                         @endphp
-                        <a href="{{ URL::to('productos/' . $name . '/'. $p['id']) }}" class="col-md-4 col-12">
+                        <a href="{{ URL::to('productos/' . $name . '/'. $p['id']) }}" class="col-md-4 col-12 my-2">
                             <div class="position-relative">
                                 <i class="fas fa-plus position-absolute"></i>
                                 <div class="position-absolute w-100 h-100"></div>

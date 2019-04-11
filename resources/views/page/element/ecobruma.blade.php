@@ -42,10 +42,10 @@
         </div>
     </div>
     {{-- CARACTERISTICAS --}}
-    <div class="container-fluid mt-5">
+    <div class="container mt-5">
         <div class="row caracteristicas justify-content-md-center">
             @foreach ($contenido["caracteristicas"] as $c)
-                <div class="col-md-2 d-flex justify-content-center flex-column">
+                <div class="col-md-2 px-0 d-flex justify-content-center flex-column">
                     <img src="{{asset($c['img'])}}" alt="" srcset="">
                     <p>{{$c["titulo"]}}</p>
                 </div>
@@ -55,17 +55,19 @@
     {{-- VIDEO --}}
     @if(!empty($contenido['video']))
     <div class="container video mt-5">
-        <div class="row justify-content-md-center bg-light border py-5">
-            <div class="col-md-5">
-                <p class="mb-0 mx-auto w-75 text-center">Para más información, mirá el video a continuación</p>
-            </div>
-            <div class="col-md-4">
-                <iframe class="w-100" src="https://www.youtube.com/embed/{{$contenido['video']}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="bg-light border">
+            <div class="row justify-content-md-center py-5">
+                <div class="col-md-5">
+                    <p class="mb-0 mx-auto w-75 text-center">Para más información, mirá el video a continuación</p>
+                </div>
+                <div class="col-md-4">
+                    <iframe class="w-100" src="https://www.youtube.com/embed/{{$contenido['video']}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     @endif
-    <div class="container mt-5" style="margin-bottom: -100px;">
+    <div class="container dinamica-aplicaciones mt-5">
         <div class="row">
             <div class="col-md-6">
                 <div class="card shadow-sm">
@@ -75,7 +77,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -94,7 +95,9 @@
                     <p class="mb-0 text-center">Contáctanos y te brindaremos toda la información que necesites</p>
                 </div>
             </div>
-            <form action="" method="post" class="py-3">
+            <form action="{{ url('/form/ecobruma') }}" method="post" class="py-3">
+                @method("post")
+                {{ csrf_field() }}
                 <div class="row justify-content-md-center">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
@@ -120,6 +123,20 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <textarea class="form-control" name="mensaje" placeholder="Mensaje"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-md-center">
+                    <div class="col-md-6">
+                        <div class="g-recaptcha" data-sitekey="6LfyY50UAAAAAJGHw1v6ixJgvBbUOasaTT6Wz-od"></div>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center mt-2">
+                    <div class="col-md-6">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" name="terminos" for="customCheck1">Acepto los términos y condiciones de privacidad</label>
                         </div>
                     </div>
                 </div>

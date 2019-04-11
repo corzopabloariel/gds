@@ -82,9 +82,15 @@
                     <li>
                         <a href="{{ route('empresa.metadatos')}}">Metadatos</a>
                     </li>
+                    @if(Auth::user()["is_admin"])
                     <li>
                         <a href="{{ route('empresa.usuarios')}}">Usuarios</a>
                     </li>
+                    @else
+                    <li>
+                        <a href="{{ route('empresa.mis_datos')}}">Usuarios</a>
+                    </li>
+                    @endif
                 </ul>
             </li>
         </ul>

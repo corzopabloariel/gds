@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Dato;
 use App\Metadato;
+use App\User;
 class EmpresaController extends Controller
 {
     /**
@@ -216,6 +217,9 @@ class EmpresaController extends Controller
     }
     /** */
     public function usuarios() {
-
+        $title = "Usuarios";
+        $seccion = "";
+        $usuarios = User::orderBy('username')->get();
+        return view('adm.empresa.usuario',compact('title','seccion','usuarios'));
     }
 }

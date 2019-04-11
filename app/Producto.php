@@ -17,4 +17,9 @@ class Producto extends Model
     {
         return $this->hasMany('App\Productosimg')->orderBy('orden');
     }
+
+    public function productos()
+    {
+        return $this->belongsToMany('App\Producto', 'productosrelacion', 'producto', 'producto_relacion');
+    }
 }

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('headTitle', 'GDS :: ' . strtoupper($seccion))</title>
+        <title>@yield('headTitle', 'GSD :: ' . strtoupper($seccion))</title>
         <!-- <Fonts> -->
         <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,400i,600,700,900" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -35,6 +35,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
         @stack('scripts')
         <script>
             $(document).ready(function() {
@@ -42,6 +43,10 @@
                 if(window.url.indexOf("proyectos") > 0) {
                     aux = window.url.split("/proyectos");
                     window.url = `${aux[0]}/proyectos`;
+                }
+                if(window.url.indexOf("productos") > 0) {
+                    aux = window.url.split("/productos");
+                    window.url = `${aux[0]}/productos`;
                 }
 
                 $(`nav .nav-link[href="${window.url}"]`).addClass("active");

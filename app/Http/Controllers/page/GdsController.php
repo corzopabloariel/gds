@@ -14,110 +14,54 @@ use App\Proyecto;
 class GdsController extends Controller
 {
     public function index() {
-        $seccion = strtoupper("home");
         $title = "home";
-
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
-        $slider = Slider::where('seccion','home')->orderBy('orden')->get();
-
+        $seccion = strtoupper($title);
+        $empresa = self::datosEmpresa();
+        $slider = Slider::where('seccion',$title)->orderBy('orden')->get();
         $productos = Producto::where('destacado',1)->limit(3)->get();
         $ecobruma = Slider::where('seccion','ecobruma')->first()["img"];
-        
-        $contenido = Contenido::where('seccion','home')->first()["data"];
-        $contenido = json_decode($contenido, true);
+        $contenido = self::contenido($title);
         return view('welcome',compact('seccion','title','empresa','contenido','productos','ecobruma','slider'));
     }
     public function empresa() {
-        $seccion = strtoupper("empresa");
         $title = "empresa";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
-        $slider = Slider::where('seccion','empresa')->orderBy('orden')->get();
-        
-        $contenido = Contenido::where('seccion','empresa')->first()["data"];
-        $contenido = json_decode($contenido, true);
+        $seccion = strtoupper($title);
+        $empresa = self::datosEmpresa();
+        $slider = Slider::where('seccion',$title)->orderBy('orden')->get();
+        $contenido = self::contenido($title);
         return view('welcome',compact('seccion','title','empresa','contenido','slider'));
     }
 
     public function ecobruma() {
-        $seccion = strtoupper("ecobruma");
         $title = "ecobruma";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
-        $slider = Slider::where('seccion','ecobruma')->orderBy('orden')->get();
-        
-        $contenido = Contenido::where('seccion','ecobruma')->first()["data"];
-        $contenido = json_decode($contenido, true);
-        
+        $seccion = strtoupper($title);
+        $empresa = self::datosEmpresa();
+        $slider = Slider::where('seccion',$title)->orderBy('orden')->get();
+        $contenido = self::contenido($title);
         return view('welcome',compact('seccion','title','empresa','contenido','slider'));
     }
 
     public function videos() {
-        $seccion = strtoupper("videos");
         $title = "videos";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
-        
-        $contenido = Contenido::where('seccion','videos')->first()["data"];
-        $contenido = json_decode($contenido, true);
-        
+        $seccion = strtoupper($title);
+        $empresa = self::datosEmpresa();
+        $contenido = self::contenido($title);
         return view('welcome',compact('seccion','title','empresa','contenido'));
     }
 
     public function clientes() {
-        $seccion = strtoupper("clientes");
         $title = "clientes";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-        
-        $contenido = Contenido::where('seccion','clientes')->first()["data"];
-        $contenido = json_decode($contenido, true);
-        
+        $seccion = strtoupper($title);
+        $empresa = self::datosEmpresa();
+        $contenido = self::contenido($title);
         return view('welcome',compact('seccion','title','empresa','contenido'));
     }
 
     public function productos() {
         $seccion = strtoupper("productos");
         $title = "productos";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
+        $empresa = self::datosEmpresa();
         $familias = Familia::orderBy("orden")->get();
-        
         return view('welcome',compact('seccion','title','empresa','familias'));
     }
     /**
@@ -126,29 +70,10 @@ class GdsController extends Controller
     public function producto($id) {
         $seccion = strtoupper("producto");
         $title = "producto";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
-        $menu = [];
-        $familias = Familia::orderBy('orden')->pluck('titulo', 'id');
-        foreach($familias AS $k => $v) {
-            $productos = Producto::where('familia_id',$k)->pluck('titulo', 'id');
-            $menu[$k] = [];
-            $menu[$k]["titulo"] = $v;
-            $menu[$k]["hijos"] = [];
-            foreach($productos AS $kk => $vv) {
-                $menu[$k]["hijos"][$kk] = [];
-                $menu[$k]["hijos"][$kk]["titulo"] = $vv;
-            }
-        }
+        $empresa = self::datosEmpresa();
+        $menu = self::menu();
         $familia = Familia::find($id);
-        $productos = Producto::where('familia_id',$id)->get();
-        
+        $productos = Producto::where('familia_id',$id)->orderBy('orden')->get();
         return view('welcome',compact('seccion','title','empresa','menu','productos','familia'));
     }
     /**
@@ -158,46 +83,20 @@ class GdsController extends Controller
     public function productoEspecifico($name, $id) {
         $seccion = strtoupper("producto");
         $title = "productoEspecifico";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
-        $menu = [];
-        $familias = Familia::orderBy('orden')->pluck('titulo', 'id');
-        foreach($familias AS $k => $v) {
-            $productos = Producto::where('familia_id',$k)->pluck('titulo', 'id');
-            $menu[$k] = [];
-            $menu[$k]["titulo"] = $v;
-            $menu[$k]["hijos"] = [];
-            foreach($productos AS $kk => $vv) {
-                $menu[$k]["hijos"][$kk] = [];
-                $menu[$k]["hijos"][$kk]["titulo"] = $vv;
-            }
-        }
+        $empresa = self::datosEmpresa();
+        $menu = self::menu();
         $producto = Producto::find($id);
         $producto["data"] = json_decode($producto["data"], true);
         $producto["imagenes"] = $producto->imagenes;
-        
+        $producto["productos"] = $producto->productos;
         return view('welcome',compact('seccion','title','empresa','menu','producto'));
     }
 
     public function proyectos() {
         $seccion = strtoupper("proyectos");
         $title = "proyectos";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
+        $empresa = self::datosEmpresa();
         $proyectos = Proyecto::orderBy("orden")->get();
-        
         return view('welcome',compact('seccion','title','empresa','proyectos'));
     }
 
@@ -205,44 +104,78 @@ class GdsController extends Controller
         $seccion = strtoupper("proyecto");
         $title = "proyecto";
         
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-
+        $empresa = self::datosEmpresa();
         $proyecto = Proyecto::find($id);
         $proyecto["img"] = json_decode($proyecto["img"], true);
-        
         return view('welcome',compact('seccion','title','empresa','proyecto'));
     }
 
     public function contacto() {
         $seccion = strtoupper("contacto");
         $title = "contacto";
-        
-        $empresa = Dato::first();
-        $empresa["img"] = json_decode($empresa["img"], true);
-        $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
-        $empresa["tel"] = json_decode($empresa["tel"], true);
-        $empresa["email"] = json_decode($empresa["email"], true);
-        $empresa["redes"] = json_decode($empresa["redes"], true);
-        
+        $empresa = self::datosEmpresa();
         return view('welcome',compact('seccion','title','empresa'));
     }
     
     public function presupuesto() {
         $seccion = strtoupper("presupuesto");
         $title = "presupuesto";
-        
+        $empresa = self::datosEmpresa();
+        return view('welcome',compact('seccion','title','empresa'));
+    }
+
+    public function contenido($seccion) {
+        $contenido = Contenido::where('seccion',$seccion)->first()["data"];
+        $contenido = json_decode($contenido, true);
+        return $contenido;
+    }
+
+    public function limpiar($string) {
+        $string = htmlentities($string);
+        $string = str_replace(" ","_",$string);
+        $string = strtolower($string);
+        $string = preg_replace('/\&(.)[^;]*;/', '\\1', $string);
+        return $string;
+    }
+
+    public function menu() {
+        $menu = [];
+        $familias = Familia::orderBy('orden')->pluck('titulo', 'id');
+        foreach($familias AS $k => $v) {
+            $productos = Producto::where('familia_id',$k)->orderBy('orden')->pluck('titulo', 'id');
+            $menu[$k] = [];
+            $menu[$k]["titulo"] = $v;
+            $menu[$k]["hijos"] = [];
+            foreach($productos AS $kk => $vv) {
+                $menu[$k]["hijos"][$kk] = [];
+                $menu[$k]["hijos"][$kk]["titulo"] = $vv;
+                $menu[$k]["hijos"][$kk]["tituloLimpio"] = self::limpiar($vv);
+            }
+        }
+        return $menu;
+    }
+
+    public function datosEmpresa() {
         $empresa = Dato::first();
         $empresa["img"] = json_decode($empresa["img"], true);
         $empresa["domicilio"] = json_decode($empresa["domicilio"], true);
         $empresa["tel"] = json_decode($empresa["tel"], true);
         $empresa["email"] = json_decode($empresa["email"], true);
         $empresa["redes"] = json_decode($empresa["redes"], true);
-        
-        return view('welcome',compact('seccion','title','empresa'));
+        return $empresa;
+    }
+
+    public function form(Request $request, $seccion) {
+        $datosRequest = $request->all();
+        if($seccion == "ecobruma") {
+
+        } if($seccion == "contacto") {
+            
+        } else {//presupuesto
+
+        }
+        dd($datosRequest);
     }
 }
+//6LfyY50UAAAAAJGHw1v6ixJgvBbUOasaTT6Wz-od
+//6LfyY50UAAAAALNyCZnnP3Rt_pTi69EgSABJ0ehz

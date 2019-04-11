@@ -4,7 +4,6 @@
         <textarea placeholder="Acerca de GDS Tecnología" id="acerca" name="acerca" class="validate ckeditor w-100">{!! $contenido["data"]["acerca"]["texto"] !!}</textarea>
     </div>
     <div class="col-md-6">
-        <button type="submit" class="btn btn-success btn-block mb-3 text-uppercase">Editar<i class="fas fa-edit ml-2"></i></button>
         <button type="button" onclick="addNumeros(this)" class="btn btn-dark">Números <i class="fas fa-plus"></i></button>
         <div class="mt-3" id="wrapper-numeros">
             @for ($i = 0; $i < count($contenido["data"]["acerca"]["opciones"]); $i++)
@@ -35,6 +34,11 @@
     <div class="col-md-6">
         <input placeholder="Valores: Título" name="valorTitulo" type="text" class="form-control mb-3" value="{!! $contenido['data']['valor']['titulo'] !!}"/>
         <textarea placeholder="Valores" id="valor" name="valor" class="validate ckeditor w-100">{!! $contenido["data"]["valor"]["texto"] !!}</textarea>
+    </div>
+</div>
+<div class="row justify-content-md-center mt-3">
+    <div class="col-md-6 col-12">
+        <button type="submit" class="btn btn-success btn-block text-uppercase">Editar<i class="fas fa-edit ml-2"></i></button>
     </div>
 </div>
 @push('scripts')

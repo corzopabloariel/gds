@@ -42,7 +42,9 @@
                 </dl>
             </div>
             <div class="col-md-8 col-12 formulario">
-                <form action="">
+                <form action="{{ url('/form/ecobruma') }}" method="post">
+                    @method("post")
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="nombre" placeholder="Nombre">
@@ -67,6 +69,12 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="g-recaptcha" data-sitekey="6LfyY50UAAAAAJGHw1v6ixJgvBbUOasaTT6Wz-od"></div>
+                        </div>
+                        <div class="col-12 col-md-6"></div>
+                    </div>
+                    <div class="row mt-3">
                         <div class="col-12">
                             <div class="form-group">
                                 <button class="btn btn-gds d-block text-uppercase">enviar</button>

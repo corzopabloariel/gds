@@ -62,6 +62,7 @@ class ProductoController extends Controller
             if(isset($datosRequest[$f]))
                 $ARR_data[$f] = $datosRequest[$f];
         }
+        $ARR_data["data"]["especificaciones"] = null;
         if(isset($datosRequest["video"]))
             $ARR_data["data"]["video"] = $datosRequest["video"];
         if(isset($datosRequest["descripcion"]))
@@ -90,9 +91,21 @@ class ProductoController extends Controller
                     }
                     $ARR_data["data"]["caracteristicas"][] = ["img" => $img,"nombre" => $datosRequest["nombre"][$i]];
                 }
-                $ARR_data["data"] = json_encode($ARR_data["data"]);
             }
+            $file = $request->file('especificaciones');
+            if(!is_null($file)) {
+                $path = public_path('documents/');
+                if (!file_exists($path))
+                    mkdir($path, 0777, true);
+                $imageName = time().'_documents.'.$file->getClientOriginalExtension();
+                $file->move($path, $imageName);
+                $ARR_data["data"]["especificaciones"] = "documents/{$imageName}";
+            }
+
+            $ARR_data["data"] = json_encode($ARR_data["data"]);
             $producto = Producto::create($ARR_data);
+            $producto->productos()->sync($request->get('productos'));
+
             $Arr = [];
             $files = $request->file('img');
             if(!is_null($files)) {
@@ -110,8 +123,8 @@ class ProductoController extends Controller
                     ]);
                 }
             }
-        } else {
             
+        } else {
             /* -------------------------------------------------
                 CARACTERÍSTICAS DE PRODUCTO
             -------------------------------------------------- */
@@ -163,13 +176,29 @@ class ProductoController extends Controller
                         unlink($filename);
                 }
             }
+            $file = $request->file('especificaciones');
+            if(!is_null($file)) {
+                $filename = public_path() . "/" . $data["data"]["especificaciones"];
+                if(!empty($data["data"]["especificaciones"])) {
+                    if (file_exists($filename))
+                        unlink($filename);
+                }
+                $path = public_path('documents/');
+                if (!file_exists($path))
+                    mkdir($path, 0777, true);
+                $imageName = time().'_documents.'.$file->getClientOriginalExtension();
+                $file->move($path, $imageName);
+                $ARR_data["data"]["especificaciones"] = "documents/{$imageName}";
+            }
             $ARR_data["data"] = json_encode($ARR_data["data"]);
             $imagenesAux = [];
             $imagenes = $data["imagenes"];
             unset($data["imagenes"]);
+            unset($data["productos"]);
             
             $data->fill($ARR_data);
             $data->save();
+            $data->productos()->sync($request->get('productos'));
             /* -------------------------------------------------
                 IMAGENES DE PRODUCTO
             -------------------------------------------------- */
@@ -242,7 +271,7 @@ class ProductoController extends Controller
     {
         $data = Producto::find($id);
         $data["imagenes"] = $data->imagenes;
-        
+        $data["productos"] = $data->productos;
         return $data;
     }
 

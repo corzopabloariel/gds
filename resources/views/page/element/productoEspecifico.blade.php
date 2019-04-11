@@ -17,10 +17,7 @@
                                 @if(count($v["hijos"]) > 0)
                                 <ul class="list-group">
                                     @foreach($v["hijos"] AS $kk => $vv)
-                                        @php
-                                        $name = strtolower(str_replace(" ","_",$vv["titulo"]));
-                                        @endphp
-                                        <li data-producto="{{$kk}}" class="list-group-item"><span><a href="{{ URL::to('productos/' . $name . '/'. $kk) }}">{{$vv["titulo"]}}</a></span></li>
+                                        <li data-producto="{{$kk}}" class="list-group-item"><span><a href="{{ URL::to('productos/' . $vv['tituloLimpio'] . '/'. $kk) }}">{{$vv["titulo"]}}</a></span></li>
                                     @endforeach
                                 </ul>
                                 @endif
@@ -29,13 +26,39 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-9 producto">
-                
-                <h3 class="title">{{$producto["titulo"]}}</h3>
+            <div class="col-md-9 producto mt-sm-2">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-6">
+                        <div id="carouselExampleIndicators mb-2" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                @for($i = 0 ; $i < count($producto["imagenes"]) ; $i++)
+                                    @if($i == 0)
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}" class="active"></li>
+                                    @else
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}"></li>
+                                    @endif
+                                @endfor
+                            </ol>
+                            <div class="carousel-inner">
+                                @for($i = 0 ; $i < count($producto["imagenes"]) ; $i++)
+                                    @if($i == 0)
+                                        <div class="carousel-item active">
+                                    @else
+                                        <div class="carousel-item">
+                                    @endif
+                                    <img class="d-block w-100" src="{{asset($producto['imagenes'][$i]['img'])}}" >
+                                </div>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="title mt-3">{{$producto["titulo"]}}</h3>
                 <div class="descripcion">
                     {!! $producto["data"]["descripcion"] !!}
                 </div>
-
+                @if(count($producto["data"]["caracteristicas"]) > 0)
                 <div class="row caracteristicas my-5">
                     @foreach($producto["data"]["caracteristicas"] AS $c)
                     <div class="col-md-4">
@@ -44,13 +67,15 @@
                     </div>
                     @endforeach
                 </div>
-
+                @endif
                 <div class="detalle">
                     {!! $producto["data"]["detalle"] !!}
                 </div>
 
                 <div class="botones">
-                    <button class="btn btn-gds text-uppercase">especificaciones</button>
+                    @if(!empty($producto['data']['especificaciones']))
+                    <a target="blank" href="{{asset($producto['data']['especificaciones'])}}" class="btn btn-gds text-uppercase">especificaciones</a>
+                    @endif
                     <button class="btn btn-gds text-uppercase">consultar</button>
                 </div>
 
@@ -66,9 +91,30 @@
                     </div>
                 </div>
                 @endif
+                @if(count($producto["productos"]) > 0)
                 <div class="relacionados mt-5">
                     <h4 class="title">Productos Relacionados</h4>
+                    <div class="row my-4">
+                        @foreach($producto["productos"] AS $p)
+                        @php
+                            $img = null;
+                            $images = $p->imagenes;
+                            if(count($images) > 0)
+                                $img = $images[0]["img"];
+                            $name = $menu[$p["familia_id"]]["hijos"][$p["id"]]["tituloLimpio"];
+                        @endphp
+                        <a href="{{ URL::to('productos/' . $name . '/'. $p['id']) }}" class="col-md-4 col-12 mt-2">
+                            <div class="position-relative">
+                                <i class="fas fa-plus position-absolute"></i>
+                                <div class="position-absolute w-100 h-100"></div>
+                                <img src="{{asset($img)}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" class="w-100" />
+                            </div>
+                            <p class="mb-0 p-2">{{$p["titulo"]}}</p>
+                        </a>
+                        @endforeach
+                    </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

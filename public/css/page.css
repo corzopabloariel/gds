@@ -38,6 +38,11 @@ nav .nav-link.active {
     margin-left: 2em;
     border-left: 1px solid
 }
+
+.buscar { 
+    color: #0E7856;
+    font-size: 18px;
+}
 /* ---------------------------------------------------
     CAROUSEL
 ----------------------------------------------------- */
@@ -66,14 +71,19 @@ nav .nav-link.active {
 }
 .wrapper-destacados .title {
     color: #B0B0B0;
-    font-size: 15px;
+    font-size: 20px;
 }
-.wrapper-videos p,
-.wrapper-clientes .listado p {
+.wrapper-videos p {
     color:#515151;
     font-size: 16px;
 }
-.wrapper-proyectos a {
+.wrapper-clientes .listado p {
+    color:#515151;
+    font-size: 17px;
+    margin-top: 1em;
+}
+.wrapper-proyectos a,
+.wrapper-productos a {
     color: #0D7855 !important;
     font-size: 20px;
     font-weight: 500;
@@ -86,7 +96,7 @@ nav .nav-link.active {
 .wrapper-clientes h3.title,
 .wrapper-proyectos h3.title {
     color: #0E7856;
-    font-size: 30px;
+    font-size: 37px;
 }
 .wrapper-ecobruma h4.title {
     color: #007954;
@@ -95,6 +105,15 @@ nav .nav-link.active {
 .wrapper-ecobruma h5.title {
     color: #FE7123;
     font-size: 26px;
+}
+.wrapper-ecobruma .dinamica-aplicaciones {
+    margin-bottom: -100px;
+}
+.wrapper-ecobruma .dinamica-aplicaciones .card-body {
+    padding: 1.8rem !important;
+}
+.wrapper-ecobruma .dinamica-aplicaciones .card-body p:last-child {
+    margin-bottom: 0;
 }
 .wrapper-proyecto p.title {
     color: #747374;
@@ -115,7 +134,11 @@ nav .nav-link.active {
     color: #0D7855;
     font-size: 22px;
 }
-.wrapper-producto .productos a div > div {
+.wrapper-producto .productos a div > div,
+.wrapper-destacados a div > div,
+.wrapper-productos a div > div,
+.wrapper-producto .relacionados a div > div,
+.wrapper-proyectos a div > div {
     opacity: 0;
     background-color: #222222;
     z-index: 1;
@@ -125,7 +148,11 @@ nav .nav-link.active {
     -o-transition: all 700ms ease;
     transition: all 700ms ease;
 }
-.wrapper-producto .productos a div i {
+.wrapper-producto .productos a div i,
+.wrapper-destacados a div i,
+.wrapper-productos a div i,
+.wrapper-producto .relacionados a div i,
+.wrapper-proyectos a div i {
     font-size: 30px;
     display: none;
     color: #fff;
@@ -136,10 +163,18 @@ nav .nav-link.active {
     z-index: 2;
     right: calc(50% - 30px);
 }
-.wrapper-producto .productos a:hover div i {
+.wrapper-producto .productos a:hover div i,
+.wrapper-destacados a:hover div i,
+.wrapper-productos a:hover div i,
+.wrapper-producto .relacionados a:hover div i,
+.wrapper-proyectos a:hover div i {
     display: block;
 }
-.wrapper-producto .productos a:hover div > div {
+.wrapper-producto .productos a:hover div > div,
+.wrapper-destacados a:hover div > div,
+.wrapper-productos a:hover div > div,
+.wrapper-producto .relacionados a:hover div > div,
+.wrapper-proyectos a:hover div > div {
     opacity: .6;
 }
 .wrapper-producto .sidebar a {
@@ -176,7 +211,7 @@ nav .nav-link.active {
 .wrapper-producto .list-group .list-group .list-group-item {
     border:none;
 }
-.wrapper-producto .list-group .list-group-item.active-menu span {
+.wrapper-producto .list-group .list-group-item.active-menu > span {
     color: #FE7122;
 }
 .wrapper-producto .list-group .list-group-item i {
@@ -191,6 +226,10 @@ nav .nav-link.active {
 }
 .wrapper-producto p.title a {
     color: inherit;
+}
+.wrapper-producto .relacionados a {
+    color: #0D7855;
+    font-size: 22px;
 }
 .wrapper-ecobruma h5 + p {
     color: #595959;
@@ -331,10 +370,13 @@ nav .nav-link.active {
 }
 .wrapper-home .title {
     color: #0D7855;
-    font-size: 22px;
+    font-size: 28px;
 }
 .wrapper-home .caracteristicas {
     margin-top: 2em;
+}
+.wrapper-home .caracteristicas li {
+    font-weight: 600;
 }
 .wrapper-home .caracteristicas li + li {
     margin-top: 1em;
@@ -355,6 +397,12 @@ nav .nav-link.active {
     font-weight: bold;
     font-size: 40px;
     color: #FE7122;
+}
+.wrapper-empresa .mision-vision > div > div {
+    padding: 1.8rem !important;
+}
+.wrapper-empresa .mision-vision > div > div p:last-child {
+    margin-bottom: 0;
 }
 /* ---------------------------------------------------
     FOOTER    
@@ -425,5 +473,22 @@ footer .title {
     }
     .navbar-light .navbar-nav .nav-item {
         padding: 0 10px;
+    }
+
+    .mt-sm-2 {
+        margin-top: .5rem!important;
+    }
+
+    .wrapper-producto .botones .btn {
+        width: 100%;
+        display: block;
+    }
+    .wrapper-producto .botones .btn + .btn {
+        margin-top: 1em;
+    }
+}
+@media (max-width: 768px) {
+    .carousel-inner img + div .container *:last-child {
+        width: 100%;
     }
 }

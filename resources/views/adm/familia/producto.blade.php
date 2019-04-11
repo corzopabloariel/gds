@@ -57,11 +57,28 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="custom-file">
-                                            <input onchange="readURL(this);" required type="file" name="especificaciones" accept="application/pdf,image/jpeg" class="custom-file-input" lang="es">
+                                            <input required type="file" name="especificaciones" accept="application/pdf,image/jpeg" class="custom-file-input" lang="es">
                                             <label data-invalid="Seleccione especificaciones" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
                                         </div>
                                         <small class="form-text text-muted">
                                         Acepta archivos con extensión PDF y JPG
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="familia">Productos relacionados</label>
+                                            </div>
+                                            <select class="custom-select" name="productos[]" id="productos" multiple>
+                                                @foreach ($productos as $p)
+                                                    <option value="{{$p['id']}}">{{$p["titulo"]}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <small class="form-text text-muted">
+                                        CTRL + click para seleccionar más elementos
                                         </small>
                                     </div>
                                 </div>
@@ -196,7 +213,7 @@
             action = "{{ url('/adm/familia/producto/store') }}";
         if(data !== null) {
             data.data = JSON.parse(data.data);
-            console.log(data.data)
+            
             $(`[name="titulo"]`).val(data.titulo);
             $('[name="orden"]').val(data.orden);
             if(data.data.video !== null)
@@ -213,6 +230,12 @@
             data.imagenes.forEach(element => {
                 addImagenes($("#btnImagenes"), element);
             });
+
+            Arr = [];
+            data.productos.forEach(function(p) {
+                Arr.push(p.id);
+            });
+            $("#productos").val(Arr);
         }
         elmnt = document.getElementById("form");
         elmnt.scrollIntoView();
@@ -236,6 +259,10 @@
                 .then(function(data) {
                     console.log(data)
                     $(t).removeAttr("disabled");
+                    $(`#productos option:disabled`).removeAttr('disabled')
+
+                    $(`#productos option[value="${data.id}"]`).attr('disabled',true);
+                    
                     addProducto($("#btnADD"),parseInt(id),data);
                 })
         };
@@ -319,6 +346,8 @@
         $("#wrapper-opciones,#wrapper-imagenes").html("");
         CKEDITOR.instances['descripcion'].setData('');
         CKEDITOR.instances['detalle'].setData('');
+        $('#productos option:selected').removeAttr('selected');
+        $("#productos").trigger('chosen:updated');
         $("#familia_id").val($("#familia_id option:first-child()").val()).trigger("change");
     };
     deleteProducto = function(id, t) {

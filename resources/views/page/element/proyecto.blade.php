@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="row justify-content-md-center">
-            <div class="col-7">
+            <div class="col-md-7 col-12">
                 <div id="carouselExampleIndicators mb-2" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         @for($i = 0 ; $i < count($proyecto["img"]) ; $i++)
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row justify-content-md-center mt-4">
-            <div class="col-7">
+            <div class="col-md-7 col-12">
                 <h3 class="title mb-4">{{$proyecto["titulo"]}}</h3>
                 <div>
                     {!! $proyecto["texto"] !!}

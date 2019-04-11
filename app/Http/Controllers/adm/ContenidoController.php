@@ -54,7 +54,7 @@ class ContenidoController extends Controller
                     $imageName = time().'.'.$file->getClientOriginalExtension();
                     $file->move($path, $imageName);
                     $img = "images/general/{$seccion}/{$imageName}";
-                    
+                    //dd($img);
                     $filename = public_path() . "/" . $contenido["data"]["img"];
                     if (file_exists($filename))
                         unlink($filename);

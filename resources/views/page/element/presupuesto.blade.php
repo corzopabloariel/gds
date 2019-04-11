@@ -15,7 +15,9 @@
         </div>
         <div class="row justify-content-md-center mt-5">
             <div class="col-md-8 col-12">
-                <form action="" method="post" class="formulario">
+                <form action="{{ url('/form/presupuesto') }}" method="post" class="formulario">
+                    @method("post")
+                    {{ csrf_field() }}
                     <div id="primero">
                         <div class="row">
                             <div class="col-md-6 col-12">
@@ -52,6 +54,7 @@
                                         <label class="custom-file-label" for="file" data-browse="...">Examinar Adjunto</label>
                                     </div>
                                 </div>
+                                <div class="g-recaptcha" data-sitekey="6LfyY50UAAAAAJGHw1v6ixJgvBbUOasaTT6Wz-od"></div>
                             </div>
                         </div>
                         <div class="row mt-5">
