@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <div class="wrapper-home py-4">
+    <div class="wrapper-home pt-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-12">

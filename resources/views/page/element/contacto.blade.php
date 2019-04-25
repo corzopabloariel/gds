@@ -1,6 +1,6 @@
 <section class="wrapper-contacto">
     <iframe class="w-100" style="height: 350px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.3859422238106!2d-58.38393568488858!3d-34.74586957254021!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcd2afcff0b827%3A0xe87d1ca024e776e6!2sGrupo+Silicon+Dinap!5e0!3m2!1ses!2sar!4v1554767949399!5m2!1ses!2sar" frameborder="0" style="border:0" allowfullscreen></iframe>
-    <div class="container my-4">
+    <div class="container my-5">
         <div class="row">
             <div class="col-md-4 col-12">
                 <dl class="contact-list">
@@ -42,12 +42,12 @@
                 </dl>
             </div>
             <div class="col-md-8 col-12 formulario">
-                <form action="{{ url('/form/ecobruma') }}" method="post">
+                <form action="{{ url('/form/contacto') }}" method="post">
                     @method("post")
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="nombre" placeholder="Nombre">
+                            <input required type="text" class="form-control" name="nombre" placeholder="Nombre">
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="apellido" placeholder="Apellido">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="row my-4">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" name="email" placeholder="Email">
+                            <input required type="text" class="form-control" name="email" placeholder="Email">
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control" name="telefono" placeholder="Teléfono">
@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <textarea class="form-control" name="mensaje" placeholder="Mensaje"></textarea>
+                                <textarea required class="form-control" name="mensaje" placeholder="Mensaje"></textarea>
                             </div>
                         </div>
                     </div>

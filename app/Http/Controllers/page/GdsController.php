@@ -4,6 +4,10 @@ namespace App\Http\Controllers\page;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Contacto;
+use App\Mail\Presupuesto;
+use App\Mail\Ecobruma;
 
 use App\Dato;
 use App\Contenido;
@@ -167,14 +171,50 @@ class GdsController extends Controller
 
     public function form(Request $request, $seccion) {
         $datosRequest = $request->all();
+        
         if($seccion == "ecobruma") {
-
-        } if($seccion == "contacto") {
+            $nombre = $request->input('nombre');
+            $apellido = $request->input('apellido');
+            $telefono = $request->input('telefono');
+            $email = $request->input('email');
+            $mensaje = $request->input('mensaje');
+            Mail::to('corzo.pabloariel@gmail.com')->send(new Presupuesto($nombre, $telefono, $apellido, $email, $mensaje));
+            //Mail::to('info@gsdtecnologia.com.ar')->send(new Presupuesto($nombre, $telefono, $apellido, $email, $mensaje));
             
+            if (count(Mail::failures()) > 0)
+                return back()->widthErrors(['mssg' => "Ha ocurrido un error al enviar el correo"]);
+            else
+                return back()->withSuccess(['mssg' => "Correo enviado correctamente"]);
+        } if($seccion == "contacto") {
+            $nombre = $request->input('nombre');
+            $apellido = $request->input('apellido');
+            $telefono = $request->input('telefono');
+            $email = $request->input('email');
+            $mensaje = $request->input('mensaje');
+            Mail::to('corzo.pabloariel@gmail.com')->send(new Contacto($nombre, $telefono, $apellido, $email, $mensaje));
+            Mail::to('info@gsdtecnologia.com.ar')->send(new Contacto($nombre, $telefono, $apellido, $email, $mensaje));
+            
+            if (count(Mail::failures()) > 0)
+                return back()->widthErrors(['mssg' => "Ha ocurrido un error al enviar el correo"]);
+            else
+                return back()->withSuccess(['mssg' => "Correo enviado correctamente"]);
         } else {//presupuesto
 
+            $nombre = $request->input('nombre');
+            $telefono = $request->input('telefono');
+            $localidad = $request->input('localidad');
+            $email = $request->input('email');
+            $mensaje = $request->input('mensaje');
+            $archivo = $request->file('archivo');
+            Mail::to('corzo.pabloariel@gmail.com')->send(new Presupuesto($nombre, $telefono, $localidad, $email, $mensaje, $archivo));
+            Mail::to('info@gsdtecnologia.com.ar')->send(new Presupuesto($nombre, $telefono, $localidad, $email, $mensaje, $archivo));
+            
+            if (count(Mail::failures()) > 0)
+                return back()->widthErrors(['mssg' => "Ha ocurrido un error al enviar el correo"]);
+            else
+                return back()->withSuccess(['mssg' => "Correo enviado correctamente"]);
         }
-        dd($datosRequest);
+        
     }
 }
 //6LfyY50UAAAAAJGHw1v6ixJgvBbUOasaTT6Wz-od

@@ -61,7 +61,7 @@ nav .nav-link.active {
 }
 .carousel-inner img + div .container *:last-child {
     width: 45%;
-    line-height: initial;
+    line-height: 34px;
 }
 /* ---------------------------------------------------
     HOME

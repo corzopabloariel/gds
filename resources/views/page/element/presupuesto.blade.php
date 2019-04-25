@@ -21,7 +21,7 @@
                     <div id="primero">
                         <div class="row">
                             <div class="col-md-6 col-12">
-                                <input type="text" name="nombre" placeholder="Nombre" class="form-control"/>
+                                <input required type="text" name="nombre" placeholder="Nombre" class="form-control"/>
                             </div>
                             <div class="col-md-6 col-12">
                                 <input type="text" name="localidad" placeholder="Localidad" class="form-control"/>
@@ -29,10 +29,10 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6 col-12">
-                                <input type="email" name="email" placeholder="E-Mail" class="form-control"/>
+                                <input required type="email" name="email" placeholder="E-Mail" class="form-control"/>
                             </div>
                             <div class="col-md-6 col-12">
-                                <input type="phone" name="Teléfono" placeholder="Teléfono" class="form-control"/>
+                                <input type="phone" name="telefono" placeholder="Teléfono" class="form-control"/>
                             </div>
                         </div>
                         
@@ -45,12 +45,12 @@
                     <div id="segundo" style="display:none">
                         <div class="row">
                             <div class="col-md-6 col-12">
-                                <textarea name="mensaje" placeholder="Mensaje" class="form-control"></textarea>
+                                <textarea required name="mensaje" placeholder="Mensaje" class="form-control"></textarea>
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file">
+                                        <input type="file" name="archivo" class="custom-file-input" id="file">
                                         <label class="custom-file-label" for="file" data-browse="...">Examinar Adjunto</label>
                                     </div>
                                 </div>

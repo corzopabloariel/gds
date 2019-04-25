@@ -16,7 +16,7 @@
                     <button onclick="addDelete(this,'wrapper-form-edit-3')" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
-                    <form id="form" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
+                    <form id="form_1" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="yo" value="0" />
                         <div class="row justify-content-md-center">
@@ -40,7 +40,7 @@
                     <button onclick="addDelete(this,'wrapper-form-edit-2')" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
-                    <form id="form" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
+                    <form id="form_2" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="yo" value="1" />
                         <div class="row justify-content-md-center">
@@ -64,7 +64,7 @@
                     <button onclick="addDelete(this,'wrapper-form-edit')" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
-                    <form id="form" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
+                    <form id="form_3" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <input type="hidden" name="yo" value="1" />
                         <div class="row justify-content-md-center">
@@ -88,7 +88,7 @@
                     <button onclick="addDelete(this,'wrapper-form')" type="button" class="close" aria-label="Close">
                         <span aria-hidden="true"><i class="fas fa-times"></i></span>
                     </button>
-                    <form id="form" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
+                    <form id="form_4" novalidate class="pt-2" action="{{ url('/adm/empresa/usuario/store') }}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                         <div class="row justify-content-md-center">
                             <div class="col-md-6">
@@ -139,7 +139,7 @@
                     </thead>
                     <tbody>
                         @foreach($usuarios AS $usuario)
-                        <tr>
+                        <tr data-id="{{$usuario['id']}}">
                             <td>{{$usuario["username"]}}</td>
                             <td>{{$usuario["name"]}}</td>
                             <td>{!! ($usuario["is_admin"] ? "Administrador" : "Usuario") !!}</td>
@@ -180,20 +180,17 @@ addUsuario = function(t, id = 0, data = null, yo = 0, target = null) {
     else if(yo == -1)
         $("#wrapper-form-edit-3").toggle(800,"swing");
     $("#wrapper-tabla").toggle("fast");
-
+    console.log(id);
     if(id != 0)
         action = `{{ url('/adm/empresa/usuario/update/') }}/${id}`;
     else
         action = "{{ url('/adm/empresa/usuario/store') }}";
     if(data !== null) {
-        console.log(data)
         $(`[name="name"]`).val(data.name);
         $(`[name="username"]`).val(data.username);
         $(`[name="is_admin"]`).val(data.is_admin).trigger("change");
     }
-    elmnt = document.getElementById("form");
-    elmnt.scrollIntoView();
-    $("#form").attr("action",action);
+    $("form").attr("action",action);
 };
 editUsuario = function(id, t, yo = 0) {
     $(t).attr("disabled",true);
@@ -216,6 +213,31 @@ editUsuario = function(id, t, yo = 0) {
             })
     };
     promiseFunction();
+};
+deleteUsuario = function(id, t) {
+    if(confirm('¿Está seguro que desea eliminar?')) {
+        $(t).attr("disabled",true);
+        let promise = new Promise(function (resolve, reject) {
+            let url = `{{ url('/adm/empresa/usuario/delete') }}/${id}`;
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, true );
+            
+            xmlHttp.onload = function() {
+                resolve(xmlHttp.responseText);
+            }
+            xmlHttp.send( null );
+        });
+
+        promiseFunction = () => {
+            promise
+                .then(function(msg) {
+                    $("#tabla").find(`tr[data-id="${id}"]`).remove();
+                    if($("#tabla").find("tbody").html().trim() == "")
+                        $("#tabla").find("tbody").html('<tr><td colspan="4" class="text-uppercase text-center">sin datos</td></tr>')                
+                })
+        };
+        promiseFunction();
+    }
 };
 addDelete = function(t, target) {
     let yo = 0;

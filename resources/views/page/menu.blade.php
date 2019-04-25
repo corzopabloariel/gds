@@ -14,7 +14,7 @@
                     <li><i class="fas fa-paper-plane mr-2" style="color: #FF7102"></i><a href="mailto:{{$empresa['email'][0]['e']}}">{{$empresa["email"][0]["e"]}}</a></li>
                 </ul>
             </div>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav py-2">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('empresa') }}">Empresa</a>
                 </li>

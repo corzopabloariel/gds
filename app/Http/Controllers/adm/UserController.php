@@ -35,13 +35,47 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $data = null)
     {
         $datosRequest = $request->all();
+        
         unset($datosRequest["_token"]);
-        $datosRequest["password"] = Hash::make($datosRequest["password"]);
+        if(isset($datosRequest["yo"]))
+            unset($datosRequest["yo"]);
+        if(is_null($data)) {
+            if(!isset($datosRequest["password"]))
+                return back()->withErrors(["mssg"=>"Contraseña necesaria"]);
+            $datosRequest["password"] = Hash::make($datosRequest["password"]);
+            User::create($datosRequest);
+        } else {
+            $ARR = [];
+            if(isset($datosRequest["username"])) {//solo cambio user
+                if(!isset($datosRequest["password"]))
+                    return back()->withErrors(["mssg"=>"Contraseña necesaria"]);
+                if(!Hash::check($datosRequest["password"], $data["password"]))
+                    return back()->withErrors(["mssg" => "Contraseña incorrecta"]);
+                $ARR["username"] = $datosRequest["username"];
+                
+            }
+            if(isset($datosRequest["password_old"])) {//solo cambio pass
+                if(!isset($datosRequest["password_new"]))
+                    return back()->withErrors(["mssg"=>"Contraseña necesaria"]);
+                if(!Hash::check($datosRequest["password_old"], $data["password"]))
+                    return back()->withErrors(["mssg" => "Contraseña incorrecta"]);
+                $ARR["password"] = Hash::make($datosRequest["password_new"]);
+            } else if(isset($datosRequest["password_new"])) {
+                
+                if(strcmp($datosRequest["password_new"] , $datosRequest["password_new2"]) != 0)
+                    return back()->withErrors(["mssg" => "Las contraseñas no coinciden"]);
+                $ARR["password"] = Hash::make($datosRequest["password_new"]);
+            }
+            if(empty($ARR))
+                return back()->widthErrors(["mssg" => "Faltan datos"]);
+            $data->fill($ARR);
+            $data->save();
+            return back()->withSuccess(['mssg' => "Cambios realizados"]);
+        }
 
-        User::create($datosRequest);
 
         return back();
     }
@@ -77,7 +111,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = User::find($id);
+        return self::store($request, $data);
     }
 
     /**
@@ -88,6 +123,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        return 0;
     }
 }
