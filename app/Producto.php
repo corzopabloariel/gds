@@ -22,4 +22,9 @@ class Producto extends Model
     {
         return $this->belongsToMany('App\Producto', 'productosrelacion', 'producto', 'producto_relacion');
     }
+    
+    public function familia()
+    {
+        return $this->belongsTo('App\Familia')->orderBy('orden');
+    }
 }

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light p-0">
     <div class="container">
-        <a class="navbar-brand m-0 p-0" href="{{ URL::to( '/' ) }}">
+        <a class="navbar-brand m-0 p-0" href="http://osolelaravel.com/gsd/">
             <img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ asset($empresa['img']['logo']) }}?t=<?php echo time(); ?>" />
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

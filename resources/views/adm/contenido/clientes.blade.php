@@ -32,7 +32,7 @@
                     <div class="col-md-4 position-relative d-flex align-items-center">
                         <i onclick="$(this).closest('.cli').remove()" class="fas fa-backspace position-absolute text-danger"></i>
                         <input name="nombreCar[]" type="hidden" value="{{$contenido['data']['listado'][$i]['img']}}"/>
-                        <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{asset($contenido['data']['listado'][$i]['img'])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                        <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{asset($contenido['data']['listado'][$i]['img'])}}" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />
                     </div>
                 </div>
             </fieldset>
@@ -89,7 +89,7 @@
                     html += '<div class="col-md-4 position-relative d-flex align-items-center">';
                         html += `<i onclick="$(this).closest('.cli').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
                         html += `<input name="nombreCar[]" type="hidden" value="${window.img}"/>`;
-                        html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                        html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />`;
                     html += '</div>';
                 html += '</div>';
             html += '</fieldset>';

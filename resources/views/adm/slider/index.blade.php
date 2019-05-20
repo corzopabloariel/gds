@@ -1,6 +1,6 @@
 @extends('elementos.main')
 
-@section('headTitle', $title. ' | GDS')
+@section('headTitle', $title. ' | GSD')
 @section('bodyTitle', $title)
 
 @section('body')
@@ -13,7 +13,7 @@
         </div>
         <div style="display: none;" id="wrapper-form" class="mt-2">
             <div class="card">
-                <img id="card-img" class="card-img-top" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                <img id="card-img" class="card-img-top" src="" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />
 
                 <div class="card-body">
                     <button onclick="addDelete(this)" type="button" class="close" aria-label="Close">
@@ -66,7 +66,7 @@
                             @foreach($sliders AS $slider)
                                 <tr data-id="{{ $slider['id'] }}">
                                     <td class="text-uppercase">{!! $slider["orden"] !!}</td>
-                                    <td><img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ asset($slider['img']) }}?t=<?php echo time(); ?>" /></td>
+                                    <td><img onError="this.src='{{ asset('images/general/no-img.jpg') }}'" src="{{ asset($slider['img']) }}?t=<?php echo time(); ?>" /></td>
                                     @if($seccion != "ecobruma")
                                         <td>{!! $slider["texto"] !!}</td>
                                     @endif

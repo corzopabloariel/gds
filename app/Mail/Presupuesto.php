@@ -38,8 +38,11 @@ class Presupuesto extends Mailable
             'telefono' => $this->telefono,
             'localidad' => $this->localidad,
             'email' => $this->email,
-            'mensaje' => $this->mensaje,
-            'archivo' => $this->archivo
+            'mensaje' => $this->mensaje
+        ])->attach($this->archivo->getRealPath(),
+        [
+            'as' => $this->archivo->getClientOriginalName(),
+            'mime' => $this->archivo->getClientMimeType(),
         ]);
     }
 }

@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'adm'], function() {
     Route::group(['prefix' => 'familia', 'as' => 'familia'], function() {
         Route::get('/', ['uses' => 'adm\FamiliaController@index', 'as' => '.index']);
         Route::get('edit/{id}', ['uses' => 'adm\FamiliaController@edit', 'as' => '.edit']);
+        Route::get('show/{id}', ['uses' => 'adm\FamiliaController@show', 'as' => '.show']);
         Route::post('update/{id}', ['uses' => 'adm\FamiliaController@update', 'as' => '.update']);
         Route::post('store', ['uses' => 'adm\FamiliaController@store', 'as' => '.store']);
         Route::get('delete/{id}', ['uses' => 'adm\FamiliaController@destroy', 'as' => '.destroy']);

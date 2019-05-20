@@ -24,6 +24,9 @@ class GdsController extends Controller
         $slider = Slider::where('seccion',$title)->orderBy('orden')->get();
         $productos = Producto::where('destacado',1)->limit(3)->get();
         $ecobruma = Slider::where('seccion','ecobruma')->first()["img"];
+        
+        foreach($productos AS $p)
+            $p["tituloLimpio"] = self::limpiar($p["titulo"]);
         $contenido = self::contenido($title);
         return view('welcome',compact('seccion','title','empresa','contenido','productos','ecobruma','slider'));
     }
@@ -64,9 +67,15 @@ class GdsController extends Controller
     public function productos() {
         $seccion = strtoupper("productos");
         $title = "productos";
+        $nav = '<a href="{{ route("productos") }}">Productos</a>';
+        if(!is_null($familia["padre_id"])) {
+            $padre = $familia->padre;
+            $nav .= ' | <a href="{{ route("productos") }}">' . $padre["titulo"] . '</a>';
+        }
+        $nav .= " | {$familia['titulo']}";
         $empresa = self::datosEmpresa();
-        $familias = Familia::orderBy("orden")->get();
-        return view('welcome',compact('seccion','title','empresa','familias'));
+        $familias = Familia::whereNull("padre_id")->whereNotNull("img")->orderBy("orden")->get();
+        return view('welcome',compact('seccion','title','empresa','familias','nav'));
     }
     /**
      * @param $id - familias.id
@@ -76,9 +85,16 @@ class GdsController extends Controller
         $title = "producto";
         $empresa = self::datosEmpresa();
         $menu = self::menu();
+        
         $familia = Familia::find($id);
+        $nav = '<a href="{{ route("productos") }}">Productos</a>';
+        if(!is_null($familia["padre_id"])) {
+            $padre = $familia->padre;
+            $nav .= ' | <a href="{{ route("productos") }}">' . $padre["titulo"] . '</a>';
+        }
+        $nav .= " | {$familia['titulo']}";
         $productos = Producto::where('familia_id',$id)->orderBy('orden')->get();
-        return view('welcome',compact('seccion','title','empresa','menu','productos','familia'));
+        return view('welcome',compact('seccion','title','empresa','menu','productos','familia','id','nav'));
     }
     /**
      * @param $name - Para este caso, la variable no sirve para nada
@@ -92,8 +108,17 @@ class GdsController extends Controller
         $producto = Producto::find($id);
         $producto["data"] = json_decode($producto["data"], true);
         $producto["imagenes"] = $producto->imagenes;
+        if(count($producto["imagenes"]) > 1)
+            unset($producto["imagenes"][0]);
+        $nav = '<a href="{{ route("productos") }}">Productos</a>';
+        if(!is_null($producto->familia["padre_id"])) {
+            $padre = $producto->familia->padre;
+            $nav .= ' | <a href="{{ route("productos") }}">' . $padre["titulo"] . '</a>';
+        }
+        $nav .= " | {$producto->familia['titulo']}";
+        //dd($producto["imagenes"]);
         $producto["productos"] = $producto->productos;
-        return view('welcome',compact('seccion','title','empresa','menu','producto'));
+        return view('welcome',compact('seccion','title','empresa','menu','producto','nav'));
     }
 
     public function proyectos() {
@@ -144,16 +169,29 @@ class GdsController extends Controller
 
     public function menu() {
         $menu = [];
-        $familias = Familia::orderBy('orden')->pluck('titulo', 'id');
-        foreach($familias AS $k => $v) {
-            $productos = Producto::where('familia_id',$k)->orderBy('orden')->pluck('titulo', 'id');
-            $menu[$k] = [];
-            $menu[$k]["titulo"] = $v;
-            $menu[$k]["hijos"] = [];
+        $familias = Familia::whereNull("padre_id")->orderBy('orden')->get();
+        foreach($familias AS $f) {
+            $hijos = $f->hijos;
+            $productos = Producto::where('familia_id',$f["id"])->orderBy('orden')->pluck('titulo', 'id');
+            $menu[$f["id"]] = [];
+            $menu[$f["id"]]["titulo"] = $f["titulo"];
+            $menu[$f["id"]]["subcategorias"] = [];
+            foreach($hijos AS $h) {
+                $menu[$f["id"]]["subcategorias"][$h["id"]] = [];
+                $menu[$f["id"]]["subcategorias"][$h["id"]]["titulo"] = $h["titulo"];
+                $menu[$f["id"]]["subcategorias"][$h["id"]]["img"] = $h["img"];
+                $productos = Producto::where('familia_id',$h["id"])->orderBy('orden')->pluck('titulo', 'id');
+                foreach($productos AS $kk => $vv) {
+                    $menu[$f["id"]]["subcategorias"][$h["id"]]["hijos"][$kk] = [];
+                    $menu[$f["id"]]["subcategorias"][$h["id"]]["hijos"][$kk]["titulo"] = $vv;
+                    $menu[$f["id"]]["subcategorias"][$h["id"]]["hijos"][$kk]["tituloLimpio"] = self::limpiar($vv);
+                }
+            }
+            $menu[$f["id"]]["hijos"] = [];
             foreach($productos AS $kk => $vv) {
-                $menu[$k]["hijos"][$kk] = [];
-                $menu[$k]["hijos"][$kk]["titulo"] = $vv;
-                $menu[$k]["hijos"][$kk]["tituloLimpio"] = self::limpiar($vv);
+                $menu[$f["id"]]["hijos"][$kk] = [];
+                $menu[$f["id"]]["hijos"][$kk]["titulo"] = $vv;
+                $menu[$f["id"]]["hijos"][$kk]["tituloLimpio"] = self::limpiar($vv);
             }
         }
         return $menu;
@@ -197,7 +235,7 @@ class GdsController extends Controller
             if (count(Mail::failures()) > 0)
                 return back()->widthErrors(['mssg' => "Ha ocurrido un error al enviar el correo"]);
             else
-                return back()->withSuccess(['mssg' => "Correo enviado correctamente"]);
+                return back()->withSuccess(['mssg' => "Formulario enviado correctamente"]);
         } else {//presupuesto
 
             $nombre = $request->input('nombre');
@@ -212,7 +250,7 @@ class GdsController extends Controller
             if (count(Mail::failures()) > 0)
                 return back()->widthErrors(['mssg' => "Ha ocurrido un error al enviar el correo"]);
             else
-                return back()->withSuccess(['mssg' => "Correo enviado correctamente"]);
+                return back()->withSuccess(['mssg' => "Presupuesto enviado correctamente"]);
         }
         
     }

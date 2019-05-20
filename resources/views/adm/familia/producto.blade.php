@@ -1,6 +1,6 @@
 @extends('elementos.main')
 
-@section('headTitle', $title. ' | GDS')
+@section('headTitle', $title. ' | GSD')
 @section('bodyTitle', $title)
 
 @section('body')
@@ -47,8 +47,19 @@
                                                 <label class="input-group-text" for="familia">Familia de productos</label>
                                             </div>
                                             <select class="custom-select" name="familia_id" id="familia_id">
-                                                @foreach ($familias as $id => $v)
-                                                    <option value="{{$id}}">{{$v}}</option>
+                                                @foreach ($familias as $f)
+                                                    @php
+                                                        $hijos = $f->hijos;
+                                                    @endphp
+                                                    @if(count($hijos) == 0)
+                                                    <option value="{{$f['id']}}">{{$f['titulo']}}</option>
+                                                    @else
+                                                    <optgroup label="{{ $f['titulo'] }}">
+                                                        @foreach($hijos AS $h)
+                                                        <option value="{{$h['id']}}">{{$h['titulo']}}</option>
+                                                        @endforeach
+                                                    </optgroup>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -56,13 +67,9 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <div class="custom-file">
-                                            <input required type="file" name="especificaciones" accept="application/pdf,image/jpeg" class="custom-file-input" lang="es">
-                                            <label data-invalid="Seleccione especificaciones" data-valid="Archivo seleccionado" class="custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>
-                                        </div>
-                                        <small class="form-text text-muted">
-                                        Acepta archivos con extensión PDF y JPG
-                                        </small>
+                                        <button type="button" id="btnArchivo" onclick="addArchivo(this)" class="btn btn-block btn-dark rounded-0 text-center text-uppercase mb-2">Archivo</button>
+                                        <div id="archivos"></div>
+                                        <small class="form-text text-muted mt-2">Acepta archivos con extensión PDF y JPG</small>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -73,7 +80,7 @@
                                             </div>
                                             <select class="custom-select" name="productos[]" id="productos" multiple>
                                                 @foreach ($productos as $p)
-                                                    <option value="{{$p['id']}}">{{$p["titulo"]}}</option>
+                                                    <option value="{{$p->id}}">{{$p->titulo}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -138,42 +145,45 @@
         </div>
         <div class="card mt-2" id="wrapper-tabla">
             <div class="card-body">
-                <table class="table table-img-4 mt-2 mb-0" id="tabla">
+                <table class="table mt-2 mb-0" id="tabla">
                     <thead class="thead-dark">
+                        <th class="text-uppercase" style="width: 200px">Familia</th>
                         <th class="text-uppercase">Orden</th>
                         <th class="text-uppercase">Imagen</th>
                         <th class="text-uppercase">Nombre</th>
-                        <th class="text-uppercase">acción</th>
+                        <th class="text-uppercase" style="width: 150px">acción</th>
                     </thead>
                     <tbody>
                         @if(count($productos) != 0)
+                        
                             @foreach($productos AS $producto)
                                 @php
-                                $producto["imagenes"] = $producto->imagenes;
-                                $img = null;
-                                $familia = App\Familia::find($producto["familia_id"]);
-                                if(isset($producto["imagenes"][0])) 
-                                    $img = asset($producto["imagenes"][0]["img"]) . "?t=" . time();
+                                $img = asset($producto->img) . "?t=" . time();
                                 @endphp
-                                <tr data-id="{{ $producto['id'] }}">
-                                    <td class="text-uppercase">{!! $producto["orden"] !!}</td>
-                                    <td><img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ $img }}" /></td>
-                                    <td>
-                                        @if($producto["destacado"])
-                                            <i class="fas fa-star text-warning mr-2" title="Destacado"></i>
+                                <tr data-id="{{ $producto->id }}">
+                                    <td class="text-uppercase">
+                                        @if(!empty($producto->pFamilia))
+                                            {{ $producto->pFamilia.", " }}
                                         @endif
-                                        {!! $producto["titulo"] !!}
-                                        <small class="ml-2">{{$familia["titulo"]}}</small>
+                                        {!! $producto->familia !!}
                                     </td>
                                     <td>
-                                        <button type="button" onclick="editProducto({{ $producto['id'] }}, this)" class="btn btn-warning mr-1"><i class="fas fa-pencil-alt"></i></button>
-                                        <button type="button" onclick="deleteProducto({{ $producto['id'] }}, this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                        @if($producto->destacado)
+                                            <i class="fas fa-star text-warning mr-2" title="Destacado"></i>
+                                        @endif
+                                        {!! $producto->titulo !!}
+                                    </td>
+                                    <td class="text-uppercase">{!! $producto->orden !!}</td>
+                                    <td><img style="width:150px;" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" src="{{ $img }}" /></td>
+                                    <td>
+                                        <button type="button" onclick="editProducto({{ $producto->id }}, this)" class="btn btn-warning mr-1"><i class="fas fa-pencil-alt"></i></button>
+                                        <button type="button" onclick="deleteProducto({{ $producto->id }}, this)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="4" class="text-uppercase text-center">
+                                <td colspan="5" class="text-uppercase text-center">
                                     sin datos
                                 </td>
                             </tr>
@@ -197,6 +207,35 @@
             CKEDITOR.replace( $(this).attr("name") );
         });
     });
+
+    addArchivo = function(t, data = null) {
+        let target = $("#archivos");
+        let html = "";
+        html += `<div class="mt-1 position-relative archivo">`;
+            html += `<i onclick="removeArchivo(this)" class="fas fa-trash position-absolute text-danger" style="cursor:pointer; right:5px; top: 10px;"></i>`
+            if(data === null) {
+                html += `<input value="" placeholder="Nombre del archivo" name="archivoNombre[]" class="arcNombre form-control rounded-0 mb-n1" type="text"/>`;
+                html += `<input value="" class="arcViejo name="archivoViejo[]" type="hidden"/>`;
+            } else {
+                html += `<input value="${data.nombre}" placeholder="Nombre del archivo" name="archivoNombre[]" class="arcNombre form-control rounded-0 mb-n1" type="text"/>`;
+                html += `<input value="${data.archivo}" name="archivoViejo[]" type="hidden"/>`;
+            }
+            html += `<div class="custom-file">`;
+                html += `<input required type="file" name="archivo[]" accept="application/pdf,image/jpeg" class="custom-file-input" lang="es">`;
+                html += `<label data-invalid="Seleccione archivo" data-valid="Archivo seleccionado" class="rounded-0 custom-file-label mb-0" data-browse="Buscar" for="customFileLang"></label>`;
+            html += `</div>`;
+        html += `</div>`;
+        target.append(html);
+    }
+    removeArchivo = function(t) {
+        if($(t).closest(".archivo").find(".arcViejo").val() == "")
+            $(t).closest(".archivo").remove();
+        else {
+            $(t).closest(".archivo").addClass("d-none");
+            $(t).closest(".archivo").find(".arcNombre").val("--");
+            console.log($(t).closest(".archivo").find(".arcNombre").val())
+        }
+    }
     addProducto = function(t, id = 0, data = null) {
         let btn = $(t);
         if(btn.is(":disabled"))
@@ -235,6 +274,10 @@
             data.productos.forEach(function(p) {
                 Arr.push(p.id);
             });
+
+            data.data.archivos.forEach( function ( a ) {
+                addArchivo($("#btnArchivo"), a);
+            } );
             $("#productos").val(Arr);
         }
         elmnt = document.getElementById("form");
@@ -286,7 +329,7 @@
                 html += '</div>';
                 html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
                     html += `<input name="nombreCar[]" type="hidden" value="${window.imgOpciones}"/>`;
-                    html += `<img id="card-car-${window.imgOpciones}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                    html += `<img id="card-car-${window.imgOpciones}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />`;
                     html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
                 html += '</div>';
             html += '</div>';
@@ -315,7 +358,7 @@
                 html += '</div>';
                 html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
                     html += `<input name="nombreImg[]" type="hidden" value="${window.img}"/>`;
-                    html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                    html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />`;
                     html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
                 html += '</div>';
             html += '</div>';
@@ -351,38 +394,36 @@
         $("#familia_id").val($("#familia_id option:first-child()").val()).trigger("change");
     };
     deleteProducto = function(id, t) {
-        $(t).attr("disabled",true);
-        let promise = new Promise(function (resolve, reject) {
-            let url = `{{ url('/adm/familia/producto/delete') }}/${id}`;
-            var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open( "GET", url, true );
-            
-            xmlHttp.onload = function() {
-                resolve(xmlHttp.responseText);
-            }
-            xmlHttp.send( null );
-            
-        });
+        if(confirm("¿Eliminar producto?")) {
+            $(t).attr("disabled",true);
+            let promise = new Promise(function (resolve, reject) {
+                let url = `{{ url('/adm/familia/producto/delete') }}/${id}`;
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", url, true );
+                
+                xmlHttp.onload = function() {
+                    resolve(xmlHttp.responseText);
+                }
+                xmlHttp.send( null );
+                
+            });
 
-        promiseFunction = () => {
-            promise
-                .then(function(msg) {
-                    switch(parseInt(msg)) {
-                        case -1:
-                            mensaje = "NO SE PUEDE ELIMINAR.\nExisten PROYECTOS ACTIVOS relacionados, para procecder suprima estos desde la sección correspondiente y vuelva a intentar";
-                    }
-                    
-                    if(parseInt(msg) == 0) {
-                        $("#tabla").find(`tr[data-id="${id}"]`).remove();
-                        if($("#tabla").find("tbody").html().trim() == "")
-                            $("#tabla").find("tbody").html('<tr><td colspan="4" class="text-uppercase text-center">sin datos</td></tr>');
-                    } else {
-                        alert(mensaje);
-                        $(t).removeAttr("disabled");
-                    }
-                })
-        };
-        promiseFunction();
+            promiseFunction = () => {
+                promise
+                    .then(function(msg) {
+                        
+                        if(parseInt(msg) == 0) {
+                            $("#tabla").find(`tr[data-id="${id}"]`).remove();
+                            if($("#tabla").find("tbody").html().trim() == "")
+                                $("#tabla").find("tbody").html('<tr><td colspan="4" class="text-uppercase text-center">sin datos</td></tr>');
+                        } else {
+                            alert(mensaje);
+                            $(t).removeAttr("disabled");
+                        }
+                    })
+            };
+            promiseFunction();
+        }
     };
     $("#wrapper-opciones,#wrapper-imagenes").sortable({
         axis: "y",

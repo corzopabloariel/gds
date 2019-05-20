@@ -1,6 +1,6 @@
 @extends('elementos.main')
 
-@section('headTitle', 'Bienvenido | GDS')
+@section('headTitle', 'Bienvenido | GSD')
 @section('bodyTitle', 'Bienvenido')
 
 @section('body')

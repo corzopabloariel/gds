@@ -16,7 +16,7 @@ class FamiliaController extends Controller
     public function index()
     {
         $title = "Familias";
-        $familias = Familia::orderBy('orden')->get();
+        $familias = Familia::whereNull('padre_id')->orderBy('orden')->get();
         return view('adm.familia.index',compact('title','familias'));
     }
 
@@ -44,6 +44,7 @@ class FamiliaController extends Controller
         foreach($model->getFillable() AS $f) {
             if($f == "img") {
                 $file = $request->file($f);
+                $ARR_data[$f] = null;
                 if(is_null($file))
                     continue;
                 $path = public_path('images/familias/');
@@ -62,7 +63,7 @@ class FamiliaController extends Controller
             Familia::create($ARR_data);
         else {
             
-            if(isset($data["img"])) {
+            if(!is_null($data["img"]) && !is_null($ARR_data["img"])) {
                 $filename = public_path() . "/" . $data["img"];
                 if (file_exists($filename))
                     unlink($filename);
@@ -81,7 +82,10 @@ class FamiliaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = self::edit($id);
+        $data["hijos"] = $data->hijos;
+
+        return $data;
     }
 
     /**
@@ -117,15 +121,20 @@ class FamiliaController extends Controller
      */
     public function destroy($id)
     {
-        $prev_search = Producto::where("familia_id",$id)->get();
-        if(!empty($prev_search))
-            return -1;
-
         $data = self::edit($id);
-        $filename = public_path() . "/" . $data["img"];
-        if (file_exists($filename))
-            unlink($filename);
-
+        $prev_search = $data->hijos;
+        foreach($prev_search AS $h) {
+            if(!empty($h["img"])) {
+                $filename = public_path() . "/" . $h["img"];
+                if (file_exists($filename))
+                    unlink($filename);
+            }
+        }
+        if(!empty($data["img"])) {
+            $filename = public_path() . "/" . $data["img"];
+            if (file_exists($filename))
+                unlink($filename);
+        }
         Familia::destroy($id);
         return 0;
     }

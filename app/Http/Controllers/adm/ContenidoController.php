@@ -55,9 +55,11 @@ class ContenidoController extends Controller
                     $file->move($path, $imageName);
                     $img = "images/general/{$seccion}/{$imageName}";
                     //dd($img);
-                    $filename = public_path() . "/" . $contenido["data"]["img"];
-                    if (file_exists($filename))
-                        unlink($filename);
+                    if(!empty($contenido["data"]["img"])) {
+                        $filename = public_path() . "/" . $contenido["data"]["img"];
+                        if (file_exists($filename))
+                            unlink($filename);
+                    }
                 } else
                     $img = $contenido["data"]["img"];
                 // 
@@ -102,6 +104,7 @@ class ContenidoController extends Controller
                     $data = $contenido["data"];
                 for($j = 0; $j < count($contenido["data"]["opciones"]); $j++) {
                     if(!in_array($contenido["data"]["opciones"][$j]["img"],$A_caracteristicas))  {
+                        if(empty($contenido["data"]["opciones"][$j]["img"])) continue;
                         $filename = public_path() . "/" . $contenido["data"]["opciones"][$j]["img"];
                         if (file_exists($filename))
                             unlink($filename);
@@ -177,6 +180,7 @@ class ContenidoController extends Controller
                     }
                     for($j = 0; $j < count($contenido["data"]["caracteristicas"]); $j++) {
                         if(!in_array($contenido["data"]["caracteristicas"][$j]["img"],$A_caracteristicas))  {
+                            if(empty($contenido["data"]["caracteristicas"][$j]["img"])) continue;
                             $filename = public_path() . "/" . $contenido["data"]["caracteristicas"][$j]["img"];
                             if (file_exists($filename))
                                 unlink($filename);
@@ -229,6 +233,7 @@ class ContenidoController extends Controller
                     }
                     for($j = 0; $j < count($contenido["data"]["listado"]); $j++) {
                         if(!in_array($contenido["data"]["listado"][$j]["img"],$A_caracteristicas))  {
+                            if(empty($contenido["data"]["listado"][$j]["img"])) continue;
                             $filename = public_path() . "/" . $contenido["data"]["listado"][$j]["img"];
                             if (file_exists($filename))
                                 unlink($filename);

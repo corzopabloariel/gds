@@ -1,5 +1,5 @@
 <section>
-    <div id="carouselExampleIndicators mb-2" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true">
         <ol class="carousel-indicators">
             @for($i = 0 ; $i < count($slider) ; $i++)
                 @if($i == 0)

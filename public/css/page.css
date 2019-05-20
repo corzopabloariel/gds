@@ -21,7 +21,8 @@ nav {
 .navbar-light .navbar-nav .nav-item + .nav-item {
     margin-left: 2.2em;
 }
-nav .nav-link.active {
+nav .nav-link.active,
+nav a:hover {
     color: #007954 !important;
 }
 .submenu ul {
@@ -50,6 +51,7 @@ nav .nav-link.active {
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    background-color: #dedede;
 }
 .carousel-inner img + div {
     top: 35%;
@@ -61,7 +63,7 @@ nav .nav-link.active {
 }
 .carousel-inner img + div .container *:last-child {
     width: 45%;
-    line-height: 34px;
+    line-height: 45px;
 }
 /* ---------------------------------------------------
     HOME
@@ -177,6 +179,9 @@ nav .nav-link.active {
 .wrapper-proyectos a:hover div > div {
     opacity: .6;
 }
+.wrapper-producto .sidebar {
+    padding-bottom: 2em;
+}
 .wrapper-producto .sidebar a {
     color: inherit;
 }
@@ -212,6 +217,9 @@ nav .nav-link.active {
     border:none;
 }
 .wrapper-producto .list-group .list-group-item.active-menu > span {
+    color: #FE7122;
+}
+.wrapper-producto .list-group .list-group-item.active-menu .active-menu > a {
     color: #FE7122;
 }
 .wrapper-producto .list-group .list-group-item i {
@@ -418,9 +426,11 @@ footer hr {
     border-top: none;
     border-bottom: 1px solid;
 }
-footer a,
-footer a:hover {
+footer a {
     color: inherit;
+}
+footer a:hover {
+    color: #0D7855 !important;
 }
 footer .menu + .menu {
     margin-left: 5em;

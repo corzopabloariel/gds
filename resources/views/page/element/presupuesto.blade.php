@@ -15,7 +15,7 @@
         </div>
         <div class="row justify-content-md-center mt-5">
             <div class="col-md-8 col-12">
-                <form action="{{ url('/form/presupuesto') }}" method="post" class="formulario">
+                <form action="{{ url('/form/presupuesto') }}" method="post" class="formulario" enctype="multipart/form-data">
                     @method("post")
                     {{ csrf_field() }}
                     <div id="primero">

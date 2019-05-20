@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row py-3">
             <div class="col-12">
-                <p class="title"><a href="{{ route('productos') }}">Productos</a> | <a href="{{ URL::to('productos/'. $producto['familia_id']) }}">{{$menu[$producto["familia_id"]]["titulo"]}}</a> | {{$menu[$producto["familia_id"]]["hijos"][$producto["id"]]["titulo"]}}</p>
+                <p class="title">{!! $nav !!}</p>
             </div>
         </div>
     </div>
@@ -28,27 +28,25 @@
             </div>
             <div class="col-md-9 producto mt-sm-2">
                 <div class="row justify-content-md-center">
-                    <div class="col-md-6">
-                        <div id="carouselExampleIndicators mb-2" class="carousel slide" data-ride="carousel">
+                    <div class="col-12">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true">
                             <ol class="carousel-indicators">
                                 @for($i = 0 ; $i < count($producto["imagenes"]) ; $i++)
-                                    @if($i == 0)
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}" class="active"></li>
-                                    @else
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}"></li>
-                                    @endif
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}" class="@if($i == 0) active @endif"></li>
                                 @endfor
                             </ol>
                             <div class="carousel-inner">
-                                @for($i = 0 ; $i < count($producto["imagenes"]) ; $i++)
-                                    @if($i == 0)
-                                        <div class="carousel-item active">
-                                    @else
-                                        <div class="carousel-item">
-                                    @endif
-                                    <img class="d-block w-100" src="{{asset($producto['imagenes'][$i]['img'])}}" >
+                                @php
+                                $i = 0;
+                                @endphp
+                                @foreach($producto["imagenes"] AS $p)
+                                <div class="carousel-item @if($i == 0) active @endif border">
+                                    <img class="d-block w-100" src="{{asset($p['img'])}}" >
                                 </div>
-                                @endfor
+                                @php
+                                $i++;
+                                @endphp
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -73,10 +71,12 @@
                 </div>
 
                 <div class="botones">
-                    @if(!empty($producto['data']['especificaciones']))
-                    <a target="blank" href="{{asset($producto['data']['especificaciones'])}}" class="btn btn-gds text-uppercase">especificaciones</a>
+                    @if(!empty($producto['data']['archivos']))
+                        @foreach($producto['data']['archivos'] AS $i)
+                            <a target="blank" href="{{asset($i['archivo'])}}" class="btn btn-gds text-uppercase">{{$i["nombre"]}}</a>
+                        @endforeach
                     @endif
-                    <button class="btn btn-gds text-uppercase">consultar</button>
+                    <a href="{{ URL::to( 'presupuesto' ) }}" class="btn btn-gds text-white text-uppercase">consultar</a>
                 </div>
 
                 @if(!empty($producto['data']['video']))
@@ -104,7 +104,7 @@
                             $name = $menu[$p["familia_id"]]["hijos"][$p["id"]]["tituloLimpio"];
                         @endphp
                         <a href="{{ URL::to('productos/' . $name . '/'. $p['id']) }}" class="col-md-4 col-12 mt-2">
-                            <div class="position-relative">
+                            <div class="position-relative border">
                                 <i class="fas fa-plus position-absolute"></i>
                                 <div class="position-absolute w-100 h-100"></div>
                                 <img src="{{asset($img)}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" class="w-100" />
@@ -114,6 +114,8 @@
                         @endforeach
                     </div>
                 </div>
+                @else
+                <div class="pt-4"></div>
                 @endif
             </div>
         </div>

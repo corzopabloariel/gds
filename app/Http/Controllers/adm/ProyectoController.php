@@ -104,6 +104,7 @@ class ProyectoController extends Controller
                 }
                 for($j = 0; $j < count($data["img"]); $j++) {
                     if(!in_array($data["img"][$j],$A_caracteristicas))  {
+                        if(empty($data["img"][$j])) continue;
                         $filename = public_path() . "/" . $data["img"][$j];
                         if (file_exists($filename))
                             unlink($filename);
@@ -112,6 +113,7 @@ class ProyectoController extends Controller
             } else {
                 for($j = 0; $j < count($data["img"]); $j++) {
                     if(!in_array($data["img"][$j],$A_caracteristicas))  {
+                        if(empty($data["img"][$j])) continue;
                         $filename = public_path() . "/" . $data["img"][$j];
                         if (file_exists($filename))
                             unlink($filename);
@@ -178,6 +180,7 @@ class ProyectoController extends Controller
         $data = self::edit($id);
         $data["img"] = json_decode($data["img"],true);
         for($i = 0; $i < count($data["img"]); $i ++) {
+            if(empty($data["img"][$i])) continue;
             $filename = public_path() . "/" . $data["img"][$i];
             if (file_exists($filename))
                 unlink($filename);

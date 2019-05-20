@@ -4,6 +4,8 @@ namespace App\Http\Controllers\adm;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 use App\Producto;
 use App\Productosimg;
 use App\Familia;
@@ -18,8 +20,14 @@ class ProductoController extends Controller
     public function index()
     {
         $title = "Productos";
-        $productos = Producto::orderBy('orden')->get();
-        $familias = Familia::orderBy('orden')->pluck('titulo', 'id');
+        $familias = Familia::whereNull("padre_id")->orderBy('orden')->get();
+        
+        $productos = DB::select(
+            DB::raw('SELECT p.*, f.titulo AS familia, ff.titulo AS pFamilia, (SELECT i.img FROM productosimg AS i WHERE i.producto_id = p.id LIMIT 1) AS img FROM productos AS p
+                INNER JOIN familias AS f ON (f.id = p.familia_id)
+                LEFT JOIN familias AS ff ON (ff.id = f.padre_id)
+                    ORDER BY f.orden asc, p.orden asc'));
+        
         return view('adm.familia.producto',compact('title','productos','familias'));
     }
 
@@ -42,7 +50,7 @@ class ProductoController extends Controller
     public function store(Request $request, $data = null)
     {
         $datosRequest = $request->all();
-        
+        //dd($data);
         $model = new Producto();
         $ARR_data = [];
         foreach($model->getFillable() AS $f) {
@@ -62,7 +70,7 @@ class ProductoController extends Controller
             if(isset($datosRequest[$f]))
                 $ARR_data[$f] = $datosRequest[$f];
         }
-        $ARR_data["data"]["especificaciones"] = null;
+        $ARR_data["data"]["archivos"] = null;
         if(isset($datosRequest["video"]))
             $ARR_data["data"]["video"] = $datosRequest["video"];
         if(isset($datosRequest["descripcion"]))
@@ -73,6 +81,40 @@ class ProductoController extends Controller
         /**
          * 
          */
+        $files = $request->file('archivo');
+        //if(!is_null($files)) {
+        $path = public_path('documents/');
+        $ARR_data["data"]["archivos"] = [];
+        if (!file_exists($path))
+            mkdir($path, 0777, true);
+            //dd($datosRequest);
+        if(isset($datosRequest["archivoNombre"])) {
+            for($i = 0 ; $i < count($datosRequest["archivoNombre"]) ; $i ++) {
+                $file = $files[$i];
+                $nombre = $datosRequest["archivoNombre"][$i];
+                if(empty($file)) {
+                    if(!empty($datosRequest["archivoViejo"][$i]) && $nombre == "--") {
+                        $filename = public_path() . "/" . $datosRequest["archivoViejo"][$i];
+                        if (file_exists($filename))
+                            unlink($filename);
+                    } else
+                        $ARR_data["data"]["archivos"][] = ["archivo" => $datosRequest["archivoViejo"][$i],"nombre" => $nombre];
+                } else {
+                    $imageName = time() . "-" . ( $i + 1 ) .'_documents.'.$file->getClientOriginalExtension();
+                    $file->move($path, $imageName);
+                    $ARR_data["data"]["archivos"][] = ["archivo" => "documents/{$imageName}","nombre" => $nombre];
+                }
+            }
+        } else if(!is_null($data)) {
+            foreach($data["data"]["archivos"] AS $a) {
+                if(!empty($a["archivo"])) {
+                    $filename = public_path() . "/" . $a["archivo"];
+                    if (file_exists($filename))
+                        unlink($filename);
+                }
+            }
+        }
+        
         if(is_null($data)) {
             
             if(isset($datosRequest["nombre"])) {
@@ -91,15 +133,6 @@ class ProductoController extends Controller
                     }
                     $ARR_data["data"]["caracteristicas"][] = ["img" => $img,"nombre" => $datosRequest["nombre"][$i]];
                 }
-            }
-            $file = $request->file('especificaciones');
-            if(!is_null($file)) {
-                $path = public_path('documents/');
-                if (!file_exists($path))
-                    mkdir($path, 0777, true);
-                $imageName = time().'_documents.'.$file->getClientOriginalExtension();
-                $file->move($path, $imageName);
-                $ARR_data["data"]["especificaciones"] = "documents/{$imageName}";
             }
 
             $ARR_data["data"] = json_encode($ARR_data["data"]);
@@ -287,8 +320,8 @@ class ProductoController extends Controller
         $data = self::edit($id);
         $data["data"] = json_decode($data["data"],true);
         // dd($request->all());
-        self::store($request,$data);
-        return back();
+        
+        return self::store($request,$data);
     }
 
     /**
@@ -299,25 +332,30 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        $prev_search = Proyecto::where("producto_id",$id)->get();
-        if(!empty($prev_search))
-            return -1;
-
         $data = self::edit($id);
         $data["data"] = json_decode($data["data"],true);
         /** ELIMINO características */
         for($i = 0; $i < count($data["data"]["caracteristicas"]); $i ++) {
+            if(empty($data["data"]["caracteristicas"][$i]["img"])) continue;
             $filename = public_path() . "/" . $data["data"]["caracteristicas"][$i]["img"];
+            if (file_exists($filename))
+                unlink($filename);
+        }
+        for($i = 0; $i < count($data["data"]["archivos"]); $i ++) {
+            if(empty($data["data"]["archivos"][$i]["archivo"])) continue;
+            $filename = public_path() . "/" . $data["data"]["archivos"][$i]["archivo"];
             if (file_exists($filename))
                 unlink($filename);
         }
         /** ELIMINO imagenes */
         foreach($data["imagenes"] AS $img) {
-            $filename = public_path() . "/" . $img["img"];
-            if (file_exists($filename))
-                unlink($filename);
+            if(!empty($img["img"])) {
+                $filename = public_path() . "/" . $img["img"];
+                if (file_exists($filename))
+                    unlink($filename);
+            }
         }
-        Proyecto::destroy($id);
+        Producto::destroy($id);
         return  0;
     }
 }

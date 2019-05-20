@@ -1,5 +1,5 @@
 <section>
-    <div id="carouselExampleIndicators mb-2" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true">
         <ol class="carousel-indicators">
             @for($i = 0 ; $i < count($slider) ; $i++)
                 @if($i == 0)
@@ -28,15 +28,6 @@
             </div>
             @endfor
         </div>
-    
-        {{--<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>--}}
     </div>
     <div class="wrapper-destacados py-4">
         <h3 class="title text-uppercase text-center mb-2">productos destacados</h3>
@@ -61,17 +52,17 @@
                     if(count($p["imagenes"]) > 0)
                         $img = $p["imagenes"][0]["img"];
                     @endphp
+                    <div class="col-md-3 col-12">
+                        <a href="{{ URL::to('productos/' . $p['tituloLimpio'] . '/'. $p['id']) }}"> 
+                            <div class="position-relative">
+                                <i class="fas fa-plus position-absolute"></i>
+                                <div class="position-absolute w-100 h-100"></div>
+                                <img src="{{$img}}" alt="" class="w-100" srcset="">
+                            </div>
+                            <p class="m-0 p-2">{{$p["titulo"]}}</p>
+                        </a>
+                    </div>
                 @endforeach
-                <div class="col-md-3 col-12">
-                    <a href="">
-                        <div class="position-relative">
-                            <i class="fas fa-plus position-absolute"></i>
-                            <div class="position-absolute w-100 h-100"></div>
-                            <img src="{{$img}}" alt="" class="w-100" srcset="">
-                        </div>
-                        <p class="m-0 p-2">{{$p["titulo"]}}</p>
-                    </a>
-                </div>
             </div>
         </div>
     </div>

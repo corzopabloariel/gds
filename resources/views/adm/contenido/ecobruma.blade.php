@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">
                     <input name="nombreCar[]" type="hidden" value="{{$contenido['data']['caracteristicas'][$i]['img']}}" />
-                    <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{ asset($contenido['data']['caracteristicas'][$i]['img'])}}" onError="this.src='{{ asset('images/general/no-img.png') }}'" />
+                    <img id="card-img-{{$i + 1}}" class="w-100 d-block" src="{{ asset($contenido['data']['caracteristicas'][$i]['img'])}}" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />
                 </div>
                 <div class="col-md-6 position-relative">
                     <i onclick="$(this).closest('.row').remove()" class="fas fa-backspace position-absolute text-danger"></i>
@@ -83,7 +83,7 @@
             html += '</div>';
             html += '<div class="col-md-1 px-0" style="overflow: hidden; max-height: 38px">';
             html += `<input name="nombreCar[]" type="hidden" value="${window.img}"/>`;
-                html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />`;
             html += '</div>';
             html += '<div class="col-md-6 position-relative">';
                 html += `<i onclick="$(this).closest('.row').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;

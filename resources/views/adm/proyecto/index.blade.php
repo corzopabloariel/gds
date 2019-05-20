@@ -1,6 +1,6 @@
 @extends('elementos.main')
 
-@section('headTitle', $title. ' | GDS')
+@section('headTitle', $title. ' | GSD')
 @section('bodyTitle', $title)
 
 @section('body')
@@ -89,7 +89,7 @@
                                 @endphp
                                 <tr data-id="{{ $proyecto['id'] }}">
                                     <td class="text-uppercase">{!! $proyecto["orden"] !!}</td>
-                                    <td><img onError="this.src='{{ asset('images/general/no-img.png') }}'" src="{{ asset($img) }}?t=<?php echo time(); ?>" /></td>
+                                    <td><img onError="this.src='{{ asset('images/general/no-img.jpg') }}'" src="{{ asset($img) }}?t=<?php echo time(); ?>" /></td>
                                     <td>
                                         <p style="font-size: 27px" class="title">{{$proyecto["titulo"]}}</p>
                                         {!! $proyecto["texto"] !!}
@@ -225,7 +225,7 @@
                 html += '</div>';
                 html += '<div class="col-md-4 position-relative d-flex flex align-items-center">';
                     html += `<input name="nombreImg[]" type="hidden" value="${window.img}"/>`;
-                    html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.png') }}'" />`;
+                    html += `<img id="card-img-${window.img}" class="w-100 d-block" src="" onError="this.src='{{ asset('images/general/no-img.jpg') }}'" />`;
                     html += `<i onclick="$(this).closest('fieldset.bg-dark').remove()" class="fas fa-backspace position-absolute text-danger"></i>`;
                 html += '</div>';
             html += '</div>';

@@ -30,10 +30,10 @@
                 <a href="#productosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-project-diagram mr-2"></i>Productos</a>
                 <ul class="collapse list-unstyled" id="productosSubmenu">
                     <li>
-                        <a href="{{ route('familia.index')}}">Familia de Trabajos</a>
+                        <a href="{{ route('familia.index')}}">Categorías</a>
                     </li>
                     <li>
-                        <a href="{{ route('familia.producto.index')}}">Todos los Trabajos</a>
+                        <a href="{{ route('familia.producto.index')}}">Productos</a>
                     </li>
                 </ul>
             </li>
